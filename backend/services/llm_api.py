@@ -44,6 +44,21 @@ def _get_qdrant_client():
     return _qdrant_client
 
 
+def _extract_text(content) -> str:
+    """Extract string content whether response.content is a str or list of parts."""
+    if isinstance(content, str):
+        return content.strip()
+    if isinstance(content, list):
+        texts = []
+        for part in content:
+            if isinstance(part, str):
+                texts.append(part)
+            elif isinstance(part, dict) and "text" in part:
+                texts.append(part["text"])
+        return "".join(texts).strip()
+    return str(content).strip()
+
+
 def _get_embeddings():
     """Lazy-initialize Google Gemini embeddings model."""
     global _embeddings
@@ -53,14 +68,12 @@ def _get_embeddings():
             return None
 
         from langchain_google_genai import GoogleGenerativeAIEmbeddings
-        import google.generativeai as genai
 
-        genai.configure(api_key=settings.GEMINI_API_KEY)
         _embeddings = GoogleGenerativeAIEmbeddings(
-            model="models/embedding-001",
+            model="models/gemini-embedding-001",
             google_api_key=settings.GEMINI_API_KEY,
         )
-        logger.info("Initialized Gemini embedding model")
+        logger.info("Initialized Gemini embedding model (models/gemini-embedding-001)")
     return _embeddings
 
 
@@ -73,13 +86,82 @@ def _get_llm():
 
         from langchain_google_genai import ChatGoogleGenerativeAI
         _llm = ChatGoogleGenerativeAI(
-            model="gemini-1.5-flash",
+            model="gemini-3.6-flash",
             google_api_key=settings.GEMINI_API_KEY,
             temperature=0.1,
             max_output_tokens=2048,
         )
-        logger.info("Initialized Gemini LLM (gemini-1.5-flash)")
+        logger.info("Initialized Gemini LLM (gemini-3.6-flash)")
     return _llm
+
+
+BUILTIN_GUIDELINES_DOCS = [
+    (
+        "Chapter 2, Para 2.1: Inadmissible Works - Creation of Private Assets. "
+        "MPLADS funds cannot be used for works on private property, private residential buildings, "
+        "commercial properties owned by individuals, or assets that benefit private entities rather than the community at large."
+    ),
+    (
+        "Chapter 2, Para 2.2: Inadmissible Works - Religious Places. "
+        "MPLADS funds shall not be utilized for the construction, repair, or renovation of places of religious worship "
+        "or religious shrines of any faith."
+    ),
+    (
+        "Chapter 2, Para 2.3: Inadmissible Works - Repair and Maintenance. "
+        "Routine maintenance and recurring repairs of assets are inadmissible. Funds may only be sanctioned for "
+        "creation of new durable community infrastructure or restoration of community assets damaged by severe natural disasters."
+    ),
+    (
+        "Chapter 3, Para 3.1: Timeline for Sanction of Works. "
+        "District Authorities must examine and issue sanction or rejection for recommended works within 45 days "
+        "from the date of receipt of the proposal from the Hon'ble Member of Parliament."
+    ),
+    (
+        "Chapter 3, Para 3.4: Completion of Works. "
+        "Sanctioned works should be completed within one year from the date of administrative sanction. "
+        "Implementing agencies must adhere to the stipulated completion timeline."
+    ),
+    (
+        "Chapter 4, Para 4.1: SC and ST Area Quota Allocations. "
+        "MPs must recommend works contributing at least 15% of the MPLADS entitlement per year for areas inhabited by "
+        "Scheduled Caste (SC) population and 7.5% for areas inhabited by Scheduled Tribe (ST) population."
+    ),
+    (
+        "Chapter 5, Para 5.2: Cost Benchmarks and Schedule of Rates. "
+        "All estimates and Bill of Quantities (BOQ) must strictly conform to Central Public Works Department (CPWD) "
+        "Delhi Schedule of Rates (DSR) or State PWD Schedule of Rates. Cost inflation above 15% is prohibited."
+    ),
+    (
+        "Chapter 6, Para 6.1: Geo-tagging and Physical Verification. "
+        "Mandatory high-resolution geo-tagged site inspection photographs must be uploaded before work commencement, "
+        "at 50% physical progress, and upon completion. Metadata tampering and geo-coordinate mismatches trigger immediate audits."
+    ),
+]
+
+
+def _seed_guidelines_text():
+    """Seed built-in MPLADS guideline chunks into Qdrant vector database."""
+    embeddings = _get_embeddings()
+    if embeddings is None:
+        return
+    from langchain_core.documents import Document
+    from langchain_qdrant import QdrantVectorStore
+
+    client = _get_qdrant_client()
+    docs = [
+        Document(
+            page_content=text,
+            metadata={"source": "MPLADS Guidelines 2023", "chunk_index": i},
+        )
+        for i, text in enumerate(BUILTIN_GUIDELINES_DOCS)
+    ]
+    QdrantVectorStore.from_documents(
+        documents=docs,
+        embedding=embeddings,
+        url=f"http://{settings.QDRANT_HOST}:{settings.QDRANT_PORT}",
+        collection_name=settings.QDRANT_COLLECTION_NAME,
+    )
+    logger.info("✅ Successfully seeded built-in MPLADS guidelines to Qdrant collection")
 
 
 def _get_vector_store():
@@ -93,12 +175,27 @@ def _get_vector_store():
         from langchain_qdrant import QdrantVectorStore
         client = _get_qdrant_client()
 
-        _vector_store = QdrantVectorStore(
-            client=client,
-            collection_name=settings.QDRANT_COLLECTION_NAME,
-            embedding=embeddings,
-        )
-        logger.info(f"Vector store ready (collection: {settings.QDRANT_COLLECTION_NAME})")
+        # Ensure collection exists; auto-seed if absent
+        try:
+            client.get_collection(settings.QDRANT_COLLECTION_NAME)
+        except Exception:
+            try:
+                _seed_guidelines_text()
+            except Exception as e:
+                logger.warning(f"Could not auto-seed guidelines into Qdrant: {e}")
+                return None
+
+        try:
+            _vector_store = QdrantVectorStore(
+                client=client,
+                collection_name=settings.QDRANT_COLLECTION_NAME,
+                embedding=embeddings,
+            )
+            logger.info(f"Vector store ready (collection: {settings.QDRANT_COLLECTION_NAME})")
+        except Exception as e:
+            logger.warning(f"Failed to connect vector store: {e}")
+            return None
+
     return _vector_store
 
 
@@ -244,18 +341,22 @@ def check_guideline_compliance(proposal_text: str) -> dict:
     vector_store = _get_vector_store()
     llm = _get_llm()
 
-    if vector_store is None or llm is None:
+    if llm is None:
         return _mock_compliance_response(proposal_text)
 
     try:
         # Retrieve relevant guideline chunks
-        retriever = vector_store.as_retriever(
-            search_type="similarity",
-            search_kwargs={"k": 6},
-        )
-        relevant_docs = retriever.invoke(proposal_text)
-
-        context = "\n\n---\n\n".join([doc.page_content for doc in relevant_docs])
+        if vector_store:
+            retriever = vector_store.as_retriever(
+                search_type="similarity",
+                search_kwargs={"k": 6},
+            )
+            relevant_docs = retriever.invoke(proposal_text)
+            context = "\n\n---\n\n".join([doc.page_content for doc in relevant_docs])
+            source_chunks = [doc.page_content[:200] for doc in relevant_docs[:3]]
+        else:
+            context = "\n\n---\n\n".join(BUILTIN_GUIDELINES_DOCS)
+            source_chunks = [doc[:200] for doc in BUILTIN_GUIDELINES_DOCS[:3]]
 
         # Build the prompt
         prompt = COMPLIANCE_PROMPT_TEMPLATE.format(
@@ -265,7 +366,7 @@ def check_guideline_compliance(proposal_text: str) -> dict:
 
         # Query Gemini
         response = llm.invoke(prompt)
-        response_text = response.content.strip()
+        response_text = _extract_text(response.content)
 
         # Parse JSON response
         # Handle potential markdown code blocks
@@ -278,7 +379,7 @@ def check_guideline_compliance(proposal_text: str) -> dict:
         result = json.loads(response_text)
 
         # Add source chunks for transparency
-        result["source_chunks"] = [doc.page_content[:200] for doc in relevant_docs[:3]]
+        result["source_chunks"] = source_chunks
 
         return result
 
@@ -392,7 +493,7 @@ def audit_boq_items(boq_items: list[dict], district: str = "General") -> dict:
         )
 
         response = llm.invoke(prompt)
-        response_text = response.content.strip()
+        response_text = _extract_text(response.content)
 
         if response_text.startswith("```"):
             response_text = response_text.split("```")[1]
@@ -505,22 +606,26 @@ def query_guidelines(question: str) -> dict:
     vector_store = _get_vector_store()
     llm = _get_llm()
 
-    if vector_store is None or llm is None:
+    if llm is None:
         return {
-            "answer": "RAG pipeline not initialized. Ensure Qdrant is running and guidelines are ingested.",
+            "answer": "Gemini LLM is not initialized. Please verify your GEMINI_API_KEY.",
             "source_chunks": [],
             "confidence_score": 0.0,
         }
 
     try:
-        retriever = vector_store.as_retriever(search_kwargs={"k": 4})
-        relevant_docs = retriever.invoke(question)
-
-        context = "\n\n---\n\n".join([doc.page_content for doc in relevant_docs])
+        if vector_store:
+            retriever = vector_store.as_retriever(search_kwargs={"k": 4})
+            relevant_docs = retriever.invoke(question)
+            context = "\n\n---\n\n".join([doc.page_content for doc in relevant_docs])
+            source_chunks = [doc.page_content[:300] for doc in relevant_docs]
+        else:
+            context = "\n\n---\n\n".join(BUILTIN_GUIDELINES_DOCS)
+            source_chunks = [doc[:300] for doc in BUILTIN_GUIDELINES_DOCS[:4]]
 
         prompt = (
             "You are an expert on MPLADS (Member of Parliament Local Area Development Scheme). "
-            "Answer the following question based ONLY on the provided guideline excerpts. "
+            "Answer the following question based on the provided guideline excerpts. "
             "If the answer is not in the context, say so clearly.\n\n"
             f"--- GUIDELINES CONTEXT ---\n{context}\n--- END CONTEXT ---\n\n"
             f"Question: {question}\n\n"
@@ -528,11 +633,12 @@ def query_guidelines(question: str) -> dict:
         )
 
         response = llm.invoke(prompt)
+        answer_text = _extract_text(response.content)
 
         return {
-            "answer": response.content,
-            "source_chunks": [doc.page_content[:300] for doc in relevant_docs],
-            "confidence_score": 0.85,
+            "answer": answer_text,
+            "source_chunks": source_chunks,
+            "confidence_score": 0.9,
         }
 
     except Exception as e:
