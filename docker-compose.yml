@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  # ── MySQL 8.0 ──────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: mplad_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-mplad_rakshak}
+      MYSQL_USER: ${MYSQL_USER:-user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mplad_network
+
+  # ── Qdrant Vector Database ────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: mplad_qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:6333/healthz || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mplad_network
+
+  # ── FastAPI Backend ───────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mplad_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_URL=mysql+pymysql://${MYSQL_USER:-user}:${MYSQL_PASSWORD:-password}@mysql:3306/${MYSQL_DATABASE:-mplad_rakshak}
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-mplad-rakshak-super-secret-key-change-in-production}
+      - DATA_DIR=./data
+      - UPLOAD_DIR=./uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    networks:
+      - mplad_network
+
+  # ── React Frontend ────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mplad_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/src:/app/src
+    networks:
+      - mplad_network
+
+volumes:
+  mysql_data:
+    driver: local
+  qdrant_data:
+    driver: local
+
+networks:
+  mplad_network:
+    driver: bridge

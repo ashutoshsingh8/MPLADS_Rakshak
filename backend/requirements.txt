@@ -1,0 +1,39 @@
+# ── Core Framework ───────────────────────────────────────
+fastapi[standard]>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+python-multipart>=0.0.9
+
+# ── Database ─────────────────────────────────────────────
+sqlalchemy>=2.0.0
+pymysql>=1.1.0
+cryptography>=42.0.0
+alembic>=1.13.0
+
+# ── AI / LLM / RAG ──────────────────────────────────────
+langchain>=0.3.0
+langchain-google-genai>=2.0.0
+langchain-qdrant>=0.2.0
+langchain-community>=0.3.0
+google-generativeai>=0.8.0
+qdrant-client>=1.12.0
+
+# ── PDF Processing ───────────────────────────────────────
+pypdf>=4.0.0
+
+# ── Image / EXIF Intelligence ───────────────────────────
+Pillow>=10.0.0
+exifread>=3.0.0
+opencv-python-headless>=4.9.0
+numpy>=1.26.0
+
+# ── Web Scraping / Data Ingestion ───────────────────────
+requests>=2.32.0
+beautifulsoup4>=4.12.0
+
+# ── Auth ─────────────────────────────────────────────────
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+bcrypt>=4.0.0

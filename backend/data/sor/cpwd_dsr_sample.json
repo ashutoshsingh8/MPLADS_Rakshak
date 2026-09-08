@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "source": "CPWD Delhi Schedule of Rates 2023 (Sample Extract)",
+    "note": "This is a representative sample for prototype/demo purposes. Actual SoR rates vary by state and district.",
+    "currency": "INR",
+    "unit_definitions": {
+      "cum": "Cubic Meter",
+      "sqm": "Square Meter",
+      "rm": "Running Meter",
+      "kg": "Kilogram",
+      "each": "Each / Per Unit",
+      "ls": "Lump Sum"
+    }
+  },
+  "schedule_of_rates": [
+    {
+      "item_code": "SOR-001",
+      "category": "ROADS",
+      "item_name": "Providing and laying WBM (Water Bound Macadam) Grade-II",
+      "unit": "cum",
+      "rate": 2850.00,
+      "specification": "IS:2720, compacted thickness 75mm"
+    },
+    {
+      "item_code": "SOR-002",
+      "category": "ROADS",
+      "item_name": "Providing and laying bituminous macadam (BM) with 60/70 grade bitumen",
+      "unit": "cum",
+      "rate": 6200.00,
+      "specification": "IRC:SP:110-2023, compacted thickness 50mm"
+    },
+    {
+      "item_code": "SOR-003",
+      "category": "ROADS",
+      "item_name": "Providing and laying cement concrete pavement M-30 grade",
+      "unit": "cum",
+      "rate": 7500.00,
+      "specification": "IS:456-2000, minimum cement content 380 kg/cum"
+    },
+    {
+      "item_code": "SOR-004",
+      "category": "DRINKING_WATER",
+      "item_name": "Providing and fixing HDPE pipes 110mm diameter",
+      "unit": "rm",
+      "rate": 450.00,
+      "specification": "IS:4984, PN-6 class, including jointing"
+    },
+    {
+      "item_code": "SOR-005",
+      "category": "DRINKING_WATER",
+      "item_name": "Construction of RCC overhead water tank 20,000 litre capacity",
+      "unit": "each",
+      "rate": 285000.00,
+      "specification": "M-25 grade concrete, TMT Fe-500 steel"
+    },
+    {
+      "item_code": "SOR-006",
+      "category": "DRINKING_WATER",
+      "item_name": "Boring and installation of hand pump (India Mark-II)",
+      "unit": "each",
+      "rate": 175000.00,
+      "specification": "IS:15500, depth up to 60 meters"
+    },
+    {
+      "item_code": "SOR-007",
+      "category": "SANITATION",
+      "item_name": "Construction of individual household latrine (IHHL) twin-pit",
+      "unit": "each",
+      "rate": 22000.00,
+      "specification": "As per SBM guidelines, including superstructure"
+    },
+    {
+      "item_code": "SOR-008",
+      "category": "SANITATION",
+      "item_name": "Construction of community sanitary complex (5-seat)",
+      "unit": "each",
+      "rate": 450000.00,
+      "specification": "Including septic tank, water supply, and tiling"
+    },
+    {
+      "item_code": "SOR-009",
+      "category": "EDUCATION",
+      "item_name": "Construction of single classroom block (carpet area 48 sqm)",
+      "unit": "each",
+      "rate": 625000.00,
+      "specification": "RCC frame structure, plastered and painted walls"
+    },
+    {
+      "item_code": "SOR-010",
+      "category": "EDUCATION",
+      "item_name": "Providing and fixing school furniture set (desk + bench)",
+      "unit": "each",
+      "rate": 4500.00,
+      "specification": "MS tubular frame with wooden top, IS:8222"
+    },
+    {
+      "item_code": "SOR-011",
+      "category": "HEALTH",
+      "item_name": "Construction of sub-health centre building",
+      "unit": "each",
+      "rate": 1500000.00,
+      "specification": "As per IPHS norms, including boundary wall"
+    },
+    {
+      "item_code": "SOR-012",
+      "category": "HEALTH",
+      "item_name": "Procurement of ambulance (basic life support)",
+      "unit": "each",
+      "rate": 1200000.00,
+      "specification": "Force Traveller/Tata Winger type with medical equipment"
+    },
+    {
+      "item_code": "SOR-013",
+      "category": "ELECTRICITY",
+      "item_name": "Installation of solar street light (20W LED with 80Wp panel)",
+      "unit": "each",
+      "rate": 18000.00,
+      "specification": "Including pole, battery, charge controller"
+    },
+    {
+      "item_code": "SOR-014",
+      "category": "ELECTRICITY",
+      "item_name": "Providing and erecting RCC/PCC electric pole (8m)",
+      "unit": "each",
+      "rate": 8500.00,
+      "specification": "With complete hardware and conductor"
+    },
+    {
+      "item_code": "SOR-015",
+      "category": "COMMUNITY_CENTER",
+      "item_name": "Construction of community hall (200 sqm plinth area)",
+      "unit": "each",
+      "rate": 3200000.00,
+      "specification": "RCC frame, tiled flooring, electrical and plumbing"
+    },
+    {
+      "item_code": "SOR-016",
+      "category": "SPORTS",
+      "item_name": "Development of outdoor sports ground with fencing",
+      "unit": "each",
+      "rate": 850000.00,
+      "specification": "Including leveling, drainage, chain-link fencing"
+    },
+    {
+      "item_code": "SOR-017",
+      "category": "IRRIGATION",
+      "item_name": "Construction of check dam (10m span, 2m height)",
+      "unit": "each",
+      "rate": 550000.00,
+      "specification": "Stone masonry with cement mortar, including apron"
+    },
+    {
+      "item_code": "SOR-018",
+      "category": "ROADS",
+      "item_name": "Construction of RCC culvert (single span 3m)",
+      "unit": "each",
+      "rate": 320000.00,
+      "specification": "M-25 concrete, Fe-500 TMT steel, with wing walls"
+    },
+    {
+      "item_code": "SOR-019",
+      "category": "OTHER",
+      "item_name": "Providing CCTV surveillance system (4 camera setup)",
+      "unit": "each",
+      "rate": 95000.00,
+      "specification": "2MP IP cameras, NVR, 1TB HDD, with installation"
+    },
+    {
+      "item_code": "SOR-020",
+      "category": "OTHER",
+      "item_name": "Construction of boundary wall (brick masonry 2m height)",
+      "unit": "rm",
+      "rate": 3200.00,
+      "specification": "230mm thick, 1:6 cement mortar, including foundation"
+    }
+  ]
+}

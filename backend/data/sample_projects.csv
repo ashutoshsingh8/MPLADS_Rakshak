@@ -1,0 +1,16 @@
+project_uid,title,category,district,state,latitude,longitude,sanctioned_amount,expenditure_to_date,recommended_date,sanctioned_date,status,is_sc_st_area,sc_st_category,physical_progress_percent,implementing_agency
+MPLAD-2024-MH-001,Construction of Community Hall at Gram Panchayat Wadgaon,COMMUNITY_CENTER,Pune,Maharashtra,18.5204,73.8567,3200000,2800000,2024-01-15,2024-02-10,IN_PROGRESS,False,GENERAL,75.0,Pune Zilla Parishad
+MPLAD-2024-MH-002,Solar Street Lighting for Village Shivare (50 units),ELECTRICITY,Pune,Maharashtra,18.4800,73.9100,900000,900000,2024-02-01,2024-03-01,COMPLETED,True,SC,100.0,MSEDCL
+MPLAD-2024-MH-003,Repair of Primary School Building Khed,EDUCATION,Pune,Maharashtra,18.8500,73.3900,625000,200000,2024-03-10,2024-05-15,FLAGGED_REVIEW,False,GENERAL,25.0,ZP Education Dept
+MPLAD-2024-UP-001,Hand Pump Installation in Block Sadar (10 units),DRINKING_WATER,Lucknow,Uttar Pradesh,26.8467,80.9462,1750000,1600000,2024-01-20,2024-02-25,IN_PROGRESS,True,SC,85.0,UP Jal Nigam
+MPLAD-2024-UP-002,Construction of RCC Drain Naka Hindola,SANITATION,Lucknow,Uttar Pradesh,26.8600,80.9200,450000,450000,2024-04-01,2024-04-20,COMPLETED,False,GENERAL,100.0,Lucknow Nagar Nigam
+MPLAD-2024-UP-003,Bituminous Road Mohanlalganj to Bakshi Ka Talab,ROADS,Lucknow,Uttar Pradesh,26.7500,80.8800,6200000,3100000,2024-05-01,2024-06-20,IN_PROGRESS,True,ST,45.0,PWD UP
+MPLAD-2024-KA-001,Overhead Water Tank 20000L at Hunsur Town,DRINKING_WATER,Mysuru,Karnataka,12.2958,76.6394,285000,285000,2024-02-15,2024-03-10,COMPLETED,False,GENERAL,100.0,Karnataka Urban Water Supply Board
+MPLAD-2024-KA-002,Sports Ground Development Nanjangud,SPORTS,Mysuru,Karnataka,12.1200,76.6800,850000,500000,2024-03-01,2024-04-05,IN_PROGRESS,True,SC,55.0,Mysuru ZP
+MPLAD-2024-RJ-001,Sub Health Centre Construction Village Mandore,HEALTH,Jodhpur,Rajasthan,26.3122,73.0169,1500000,750000,2024-01-10,2024-02-28,IN_PROGRESS,True,ST,40.0,Rajasthan Medical Dept
+MPLAD-2024-RJ-002,Check Dam on Jojari River near Bilara,IRRIGATION,Jodhpur,Rajasthan,26.1800,73.0500,550000,550000,2024-04-15,2024-05-10,COMPLETED,False,GENERAL,100.0,WRD Rajasthan
+MPLAD-2024-TN-001,CCTV Installation at Bus Stand Kumbakonam,OTHER,Thanjavur,Tamil Nadu,10.9617,79.3881,95000,95000,2024-03-20,2024-04-15,COMPLETED,False,GENERAL,100.0,Kumbakonam Municipality
+MPLAD-2024-TN-002,Community Sanitary Complex Papanasam,SANITATION,Thanjavur,Tamil Nadu,10.9300,79.2700,450000,100000,2024-06-01,2024-08-10,RECOMMENDED,True,SC,0.0,Thanjavur District Admin
+MPLAD-2024-WB-001,Classroom Block Construction Bolpur PS,EDUCATION,Birbhum,West Bengal,23.6667,87.7167,625000,400000,2024-02-05,2024-03-15,IN_PROGRESS,True,ST,60.0,WB PWD
+MPLAD-2024-GJ-001,RCC Culvert on Link Road Dhandhuka,ROADS,Ahmedabad,Gujarat,22.3717,71.9683,320000,320000,2024-01-25,2024-02-20,COMPLETED,False,GENERAL,100.0,Gujarat R&B Dept
+MPLAD-2024-GJ-002,Boundary Wall for Government School Viramgam,OTHER,Ahmedabad,Gujarat,23.1167,72.0333,480000,200000,2024-05-10,2024-07-01,FLAGGED_REVIEW,False,GENERAL,30.0,Gujarat Education Dept
