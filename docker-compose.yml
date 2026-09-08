@@ -33,11 +33,6 @@ services:
       - "6334:6334"
     volumes:
       - qdrant_data:/qdrant/storage
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:6333/healthz || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - mplad_network
 
@@ -62,7 +57,7 @@ services:
       mysql:
         condition: service_healthy
       qdrant:
-        condition: service_healthy
+        condition: service_started
     volumes:
       - ./backend:/app
     networks:

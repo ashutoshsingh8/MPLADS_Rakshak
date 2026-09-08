@@ -18,9 +18,22 @@ from database import get_db
 from models import User
 from schemas import LoginRequest, LoginResponse, UserResponse
 
+import bcrypt
+
 router = APIRouter(prefix="/api/v1/auth", tags=["Authentication"])
 security = HTTPBearer(auto_error=False)
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str) -> str:
+    pwd_bytes = password.encode("utf-8")[:72]
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(pwd_bytes, salt).decode("utf-8")
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    try:
+        pwd_bytes = plain_password.encode("utf-8")[:72]
+        return bcrypt.checkpw(pwd_bytes, hashed_password.encode("utf-8"))
+    except Exception:
+        return False
 
 
 # ═══════════════════════════════════════════════════════════
@@ -104,7 +117,7 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     """
     user = db.query(User).filter(User.username == request.username).first()
 
-    if not user or not pwd_context.verify(request.password, user.password_hash):
+    if not user or not verify_password(request.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid username or password",

@@ -288,9 +288,8 @@ def seed_initial_data(db: Session) -> dict:
         Summary dict with counts of seeded records.
     """
     from models import User, Project, Contractor, UserRole, ProjectStatus, ProjectCategory, SCSTCategory
-    from passlib.context import CryptContext
+    from routers.auth import hash_password
 
-    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     summary = {"users": 0, "projects": 0, "contractors": 0}
 
     # ── Seed Users ───────────────────────────────────────
@@ -299,7 +298,7 @@ def seed_initial_data(db: Session) -> dict:
         demo_users = [
             User(
                 username="ministry_admin",
-                password_hash=pwd_context.hash("admin123"),
+                password_hash=hash_password("admin123"),
                 full_name="Dr. Rajesh Kumar",
                 role=UserRole.MINISTRY_ADMIN,
                 state="Delhi",
@@ -307,7 +306,7 @@ def seed_initial_data(db: Session) -> dict:
             ),
             User(
                 username="da_pune",
-                password_hash=pwd_context.hash("admin123"),
+                password_hash=hash_password("admin123"),
                 full_name="Smt. Priya Sharma",
                 role=UserRole.DISTRICT_AUTHORITY,
                 district="Pune",
@@ -316,7 +315,7 @@ def seed_initial_data(db: Session) -> dict:
             ),
             User(
                 username="mp_pune",
-                password_hash=pwd_context.hash("admin123"),
+                password_hash=hash_password("admin123"),
                 full_name="Shri Vijay Patil",
                 role=UserRole.MP,
                 district="Pune",
@@ -325,7 +324,7 @@ def seed_initial_data(db: Session) -> dict:
             ),
             User(
                 username="contractor_abc",
-                password_hash=pwd_context.hash("admin123"),
+                password_hash=hash_password("admin123"),
                 full_name="M/s ABC Constructions",
                 role=UserRole.CONTRACTOR,
                 district="Pune",
@@ -334,7 +333,7 @@ def seed_initial_data(db: Session) -> dict:
             ),
             User(
                 username="da_lucknow",
-                password_hash=pwd_context.hash("admin123"),
+                password_hash=hash_password("admin123"),
                 full_name="Shri Anil Verma",
                 role=UserRole.DISTRICT_AUTHORITY,
                 district="Lucknow",
@@ -343,7 +342,7 @@ def seed_initial_data(db: Session) -> dict:
             ),
             User(
                 username="mp_lucknow",
-                password_hash=pwd_context.hash("admin123"),
+                password_hash=hash_password("admin123"),
                 full_name="Smt. Asha Devi",
                 role=UserRole.MP,
                 district="Lucknow",
