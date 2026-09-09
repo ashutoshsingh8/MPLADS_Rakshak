@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, ShieldAlert, Upload, CheckCircle2 } from 'lucide-react';
 
-export default function ReportFraudModal({ isOpen, onClose }) {
+export default function ReportFraudModal({ isOpen, onClose, targetProject }) {
   const [projectTitle, setProjectTitle] = useState('');
   const [district, setDistrict] = useState('Pune');
   const [state, setState] = useState('Maharashtra');
@@ -9,6 +9,16 @@ export default function ReportFraudModal({ isOpen, onClose }) {
   const [description, setDescription] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [photoName, setPhotoName] = useState('');
+
+  useEffect(() => {
+    if (targetProject) {
+      setProjectTitle(targetProject.title ? `${targetProject.title} (${targetProject.project_uid})` : '');
+      if (targetProject.district) setDistrict(targetProject.district);
+      if (targetProject.state) setState(targetProject.state);
+    } else {
+      setProjectTitle('');
+    }
+  }, [targetProject, isOpen]);
 
   if (!isOpen) return null;
 

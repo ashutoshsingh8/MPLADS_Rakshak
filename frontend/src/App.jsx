@@ -47,6 +47,7 @@ export default function App() {
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isFraudModalOpen, setIsFraudModalOpen] = useState(false);
+  const [selectedFraudProject, setSelectedFraudProject] = useState(null);
 
   // Authenticated department session
   const [authenticatedUser, setAuthenticatedUser] = useState(() => {
@@ -270,7 +271,10 @@ export default function App() {
           <PublicPortalHome
             onNavigateToMap={() => setActiveTab('map')}
             onNavigateToProjects={() => setActiveTab('projects')}
-            onOpenFraudReport={() => setIsFraudModalOpen(true)}
+            onOpenFraudReport={(proj) => {
+              setSelectedFraudProject(proj || null);
+              setIsFraudModalOpen(true);
+            }}
           />
         )}
 
@@ -618,7 +622,11 @@ export default function App() {
       {/* ── Report Fraud Modal ──────────────────────────────── */}
       <ReportFraudModal
         isOpen={isFraudModalOpen}
-        onClose={() => setIsFraudModalOpen(false)}
+        onClose={() => {
+          setIsFraudModalOpen(false);
+          setSelectedFraudProject(null);
+        }}
+        targetProject={selectedFraudProject}
       />
     </div>
   );
