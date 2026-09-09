@@ -87,8 +87,8 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-800 flex flex-col select-none font-sans">
-      {/* ── Top Purple Header Bar Matching Reference ────────── */}
+    <div className="min-h-screen bg-[#f0f3f6] text-slate-800 flex flex-col select-none font-sans">
+      {/* ── Top Dark Petrol Teal Header Bar Matching Reference ────────── */}
       <MPHeader
         onExitToPublic={onExitToPublic}
         onLogout={onLogout}
@@ -96,7 +96,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
       />
 
       <div className="flex-1 flex overflow-hidden">
-        {/* ── Left Sidebar Matching Reference ─────────────────── */}
+        {/* ── Left Dark Petrol Teal Sidebar Matching Reference ─────────────────── */}
         <MPSidebar
           activeTab={activeTab}
           onTabChange={setActiveTab}
@@ -124,7 +124,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
               </div>
               <button
                 onClick={() => handleEscalateSla(mockPendingProposals[0])}
-                className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shrink-0 cursor-pointer shadow-xs"
+                className="px-3.5 py-1.5 bg-[#0c455b] hover:bg-[#083040] text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shrink-0 cursor-pointer shadow-xs"
               >
                 Escalate to DM (Pune)
               </button>
@@ -132,7 +132,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
           )}
 
           {escalatedMessage && (
-            <div className="p-3 bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs rounded-xl flex items-center gap-2 animate-fade-in">
+            <div className="p-3 bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>{escalatedMessage}</span>
             </div>
@@ -143,10 +143,10 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
           {/* ═══════════════════════════════════════════════════ */}
           {activeTab === 'nominations' && (
             <div className="space-y-6 animate-fade-in">
-              {/* Title Matching Screenshot */}
-              <div className="flex items-center justify-between">
+              {/* Header Title Bar matching screenshot */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
-                  <h1 className="text-2xl font-black text-slate-800 tracking-wide uppercase">
+                  <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight uppercase">
                     MP PROJECTS OVERVIEW
                   </h1>
                   <p className="text-xs text-slate-500">
@@ -170,7 +170,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                       <h3 className="text-xs font-black text-slate-800 uppercase tracking-wider">
                         {mockVerificationCards.myNominations.title}
                       </h3>
-                      <span className="text-[10px] font-mono font-bold text-teal-700">
+                      <span className="text-[10px] font-mono font-bold text-[#15acaf]">
                         {mockVerificationCards.myNominations.progressPercent}% Complete
                       </span>
                     </div>
@@ -178,7 +178,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                     {/* Dual-tone Progress Bar */}
                     <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full"
+                        className="h-full bg-gradient-to-r from-[#0c455b] to-[#15acaf] rounded-full"
                         style={{ width: `${mockVerificationCards.myNominations.progressPercent}%` }}
                       />
                     </div>
@@ -190,11 +190,11 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                     {/* Media Preview Image */}
                     <div className="rounded-xl overflow-hidden h-40 bg-slate-100 relative group">
                       <img
-                        src={mockVerificationCards.myNominations.image}
-                        alt="Village Road Project"
+                        src="https://images.unsplash.com/photo-1476820865390-c52aeebb9891?w=800&auto=format&fit=crop&q=80"
+                        alt="Single-lane road in Shirur Taluka"
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                         onError={(e) => {
-                          e.target.src = 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800';
+                          e.target.src = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800';
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-3 text-white text-[11px]">
@@ -205,7 +205,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
 
                   <div className="px-5 py-2.5 bg-slate-50 border-t border-slate-100 text-[11px] text-slate-500 flex justify-between items-center">
                     <span>Sanctioned: <strong className="text-slate-800">{mockVerificationCards.myNominations.sanctionedAmount}</strong></span>
-                    <span className="text-teal-700 font-semibold">{mockVerificationCards.myNominations.agency}</span>
+                    <span className="text-[#0c455b] font-semibold">{mockVerificationCards.myNominations.agency}</span>
                   </div>
                 </div>
 
@@ -216,7 +216,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                       <h3 className="text-xs font-black text-slate-800 uppercase tracking-wider">
                         {mockVerificationCards.approvedWorks.title}
                       </h3>
-                      <span className="text-[10px] font-mono font-bold text-teal-700">
+                      <span className="text-[10px] font-mono font-bold text-[#15acaf]">
                         {mockVerificationCards.approvedWorks.progressPercent}% Complete
                       </span>
                     </div>
@@ -224,7 +224,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                     {/* Dual-tone Progress Bar */}
                     <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full"
+                        className="h-full bg-gradient-to-r from-[#0c455b] to-[#15acaf] rounded-full"
                         style={{ width: `${mockVerificationCards.approvedWorks.progressPercent}%` }}
                       />
                     </div>
@@ -236,11 +236,11 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                     {/* Media Preview Image */}
                     <div className="rounded-xl overflow-hidden h-40 bg-slate-100 relative group">
                       <img
-                        src={mockVerificationCards.approvedWorks.image}
+                        src="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=800&auto=format&fit=crop&q=80"
                         alt="Panchayat Community Hall Construction"
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                         onError={(e) => {
-                          e.target.src = 'https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=800';
+                          e.target.src = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800';
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-3 text-white text-[11px]">
@@ -251,18 +251,18 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
 
                   <div className="px-5 py-2.5 bg-slate-50 border-t border-slate-100 text-[11px] text-slate-500 flex justify-between items-center">
                     <span>Sanctioned: <strong className="text-slate-800">{mockVerificationCards.approvedWorks.sanctionedAmount}</strong></span>
-                    <span className="text-teal-700 font-semibold">{mockVerificationCards.approvedWorks.status}</span>
+                    <span className="text-[#0c455b] font-semibold">{mockVerificationCards.approvedWorks.status}</span>
                   </div>
                 </div>
 
-                {/* Card 3: SITE UPDATES (PHOTOS) */}
+                {/* Card 3: SITE UPDATES (PHOTOS) - 2x2 Grid matching reference image */}
                 <div className="bg-white rounded-2xl shadow-xs border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-md transition">
                   <div className="p-5 space-y-3">
                     <div className="flex items-center justify-between">
                       <h3 className="text-xs font-black text-slate-800 uppercase tracking-wider">
                         {mockVerificationCards.siteUpdates.title}
                       </h3>
-                      <span className="text-[10px] font-mono font-bold text-teal-700">
+                      <span className="text-[10px] font-mono font-bold text-[#15acaf]">
                         {mockVerificationCards.siteUpdates.progressPercent}% Complete
                       </span>
                     </div>
@@ -270,7 +270,7 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                     {/* Dual-tone Progress Bar */}
                     <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full"
+                        className="h-full bg-gradient-to-r from-[#0c455b] to-[#15acaf] rounded-full"
                         style={{ width: `${mockVerificationCards.siteUpdates.progressPercent}%` }}
                       />
                     </div>
@@ -279,31 +279,20 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                       {mockVerificationCards.siteUpdates.subtitle}
                     </p>
 
-                    {/* Grid of Verified Contractor Photos matching screenshot */}
+                    {/* 2x2 Grid of Verified Contractor Photos matching screenshot */}
                     <div className="grid grid-cols-2 gap-2 h-40">
-                      <div className="rounded-xl overflow-hidden bg-slate-100 relative">
-                        <img
-                          src={mockVerificationCards.siteUpdates.photos[0].url}
-                          alt="Site Work 1"
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.target.src = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600';
-                          }}
-                        />
-                      </div>
-                      <div className="rounded-xl overflow-hidden bg-slate-100 relative">
-                        <img
-                          src={mockVerificationCards.siteUpdates.photos[1].url}
-                          alt="Site Work 2"
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.target.src = 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600';
-                          }}
-                        />
-                        <div className="absolute top-1.5 right-1.5 bg-emerald-600/90 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs">
-                          EXIF Verified
+                      {mockVerificationCards.siteUpdates.photos.slice(0, 4).map((p, idx) => (
+                        <div key={idx} className="rounded-lg overflow-hidden bg-slate-100 relative group">
+                          <img
+                            src={p.url}
+                            alt={p.caption}
+                            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                            onError={(e) => {
+                              e.target.src = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600';
+                            }}
+                          />
                         </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
 
@@ -323,12 +312,12 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                       NOMINATED WORKS
                     </h3>
                     <div className="flex items-center gap-4 text-xs font-semibold">
-                      <span className="flex items-center gap-1.5 text-[#0284c7]">
-                        <span className="w-2.5 h-2.5 rounded-sm bg-[#0284c7]" />
+                      <span className="flex items-center gap-1.5 text-[#1966a6]">
+                        <span className="w-2.5 h-2.5 rounded-sm bg-[#1966a6]" />
                         Nominate works
                       </span>
-                      <span className="flex items-center gap-1.5 text-[#7c3aed]">
-                        <span className="w-2.5 h-2.5 rounded-sm bg-[#7c3aed]" />
+                      <span className="flex items-center gap-1.5 text-[#15acaf]">
+                        <span className="w-2.5 h-2.5 rounded-sm bg-[#15acaf]" />
                         Data charts
                       </span>
                     </div>
@@ -339,22 +328,22 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                       <AreaChart data={mockNominatedWorksTrend} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                         <defs>
                           <linearGradient id="areaNominate" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#0284c7" stopOpacity={0.4} />
-                            <stop offset="95%" stopColor="#0284c7" stopOpacity={0.0} />
+                            <stop offset="5%" stopColor="#1966a6" stopOpacity={0.45} />
+                            <stop offset="95%" stopColor="#1966a6" stopOpacity={0.05} />
                           </linearGradient>
                           <linearGradient id="areaDataChart" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.4} />
-                            <stop offset="95%" stopColor="#7c3aed" stopOpacity={0.0} />
+                            <stop offset="5%" stopColor="#15acaf" stopOpacity={0.5} />
+                            <stop offset="95%" stopColor="#15acaf" stopOpacity={0.05} />
                           </linearGradient>
                         </defs>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                         <XAxis dataKey="month" stroke="#64748b" fontSize={11} tickLine={false} />
                         <YAxis stroke="#64748b" fontSize={11} tickLine={false} domain={[0, 8000]} />
                         <Tooltip
-                          contentStyle={{ backgroundColor: '#3b0764', color: '#fff', borderRadius: '8px', border: 'none', fontSize: '11px' }}
+                          contentStyle={{ backgroundColor: '#0c374a', color: '#fff', borderRadius: '8px', border: 'none', fontSize: '11px' }}
                         />
-                        <Area type="monotone" dataKey="nominatedWorks" stroke="#0284c7" fill="url(#areaNominate)" strokeWidth={2.5} isAnimationActive={false} name="Nominate works" />
-                        <Area type="monotone" dataKey="dataCharts" stroke="#7c3aed" fill="url(#areaDataChart)" strokeWidth={2.5} isAnimationActive={false} name="Data charts" />
+                        <Area type="monotone" dataKey="nominatedWorks" stroke="#1966a6" fill="url(#areaNominate)" strokeWidth={2.5} isAnimationActive={false} name="Nominate works" />
+                        <Area type="monotone" dataKey="dataCharts" stroke="#15acaf" fill="url(#areaDataChart)" strokeWidth={2.5} isAnimationActive={false} name="Data charts" />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -367,12 +356,12 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                       NOMINATED WORKS
                     </h3>
                     <div className="flex items-center gap-4 text-xs font-semibold">
-                      <span className="flex items-center gap-1.5 text-[#0284c7]">
-                        <span className="w-2.5 h-2.5 rounded-sm bg-[#0284c7]" />
+                      <span className="flex items-center gap-1.5 text-[#1966a6]">
+                        <span className="w-2.5 h-2.5 rounded-sm bg-[#1966a6]" />
                         Nominated Works
                       </span>
-                      <span className="flex items-center gap-1.5 text-[#7c3aed]">
-                        <span className="w-2.5 h-2.5 rounded-sm bg-[#7c3aed]" />
+                      <span className="flex items-center gap-1.5 text-[#15acaf]">
+                        <span className="w-2.5 h-2.5 rounded-sm bg-[#15acaf]" />
                         Data chart
                       </span>
                     </div>
@@ -385,10 +374,10 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
                         <XAxis dataKey="month" stroke="#64748b" fontSize={11} tickLine={false} />
                         <YAxis stroke="#64748b" fontSize={11} tickLine={false} domain={[0, 1500]} />
                         <Tooltip
-                          contentStyle={{ backgroundColor: '#3b0764', color: '#fff', borderRadius: '8px', border: 'none', fontSize: '11px' }}
+                          contentStyle={{ backgroundColor: '#0c374a', color: '#fff', borderRadius: '8px', border: 'none', fontSize: '11px' }}
                         />
-                        <Bar dataKey="nominatedWorks" fill="#0284c7" radius={[4, 4, 0, 0]} name="Nominated Works" isAnimationActive={false} />
-                        <Bar dataKey="dataChart" fill="#7c3aed" radius={[4, 4, 0, 0]} name="Data chart" isAnimationActive={false} />
+                        <Bar dataKey="nominatedWorks" fill="#1966a6" radius={[4, 4, 0, 0]} name="Nominated Works" isAnimationActive={false} />
+                        <Bar dataKey="dataChart" fill="#15acaf" radius={[4, 4, 0, 0]} name="Data chart" isAnimationActive={false} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

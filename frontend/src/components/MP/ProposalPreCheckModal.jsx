@@ -76,21 +76,21 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in select-none">
       <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="bg-[#4c1d95] text-white px-6 py-4 flex items-center justify-between">
+        <div className="bg-[#0c455b] text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-amber-300" />
+            <Sparkles className="w-5 h-5 text-cyan-300" />
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider">
                 MP Proposal Pre-Check & Recommendation Engine
               </h3>
-              <p className="text-[10px] text-purple-200">
+              <p className="text-[10px] text-teal-200">
                 Pre-screen against MPLADS 2023 Guidelines before formal submission to DA
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full text-purple-200 hover:text-white hover:bg-white/10 transition"
+            className="p-1.5 rounded-full text-teal-200 hover:text-white hover:bg-white/10 transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -115,7 +115,7 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. CC Road connecting Shirur village to SH-24"
-                className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0c455b]"
               />
             </div>
 
@@ -126,7 +126,7 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0c455b]"
               >
                 <option value="ROADS">Roads, Bridges & Pathways</option>
                 <option value="DRINKING_WATER">Drinking Water & Purification</option>
@@ -145,13 +145,14 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
                 Estimated Outlay (₹ in Lakh) <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
+                <IndianRupee className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="number"
+                  step="0.1"
                   value={estimatedCost}
                   onChange={(e) => setEstimatedCost(e.target.value)}
                   placeholder="e.g. 35.00"
-                  className="w-full pl-8 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  className="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0c455b]"
                 />
               </div>
             </div>
@@ -160,24 +161,24 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
               <label className="block font-bold text-slate-700 mb-1">
                 Social Justice Benefit Quota
               </label>
-              <div className="flex items-center gap-4 pt-2">
+              <div className="flex items-center gap-4 pt-2 text-xs">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={isScBenefit}
                     onChange={(e) => { setIsScBenefit(e.target.checked); if (e.target.checked) setIsStBenefit(false); }}
-                    className="w-4 h-4 text-purple-600 rounded border-slate-300 focus:ring-purple-500"
+                    className="rounded text-[#0c455b] focus:ring-[#0c455b]"
                   />
-                  <span className="font-semibold text-slate-700">SC Area (15% Quota)</span>
+                  <span>SC Area (15% Quota)</span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={isStBenefit}
                     onChange={(e) => { setIsStBenefit(e.target.checked); if (e.target.checked) setIsScBenefit(false); }}
-                    className="w-4 h-4 text-purple-600 rounded border-slate-300 focus:ring-purple-500"
+                    className="rounded text-[#0c455b] focus:ring-[#0c455b]"
                   />
-                  <span className="font-semibold text-slate-700">ST Area (7.5% Quota)</span>
+                  <span>ST Area (7.5% Quota)</span>
                 </label>
               </div>
             </div>
@@ -192,7 +193,7 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe how this durable asset benefits the community, estimated beneficiaries, and exact location..."
-              className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0c455b]"
             />
           </div>
 
@@ -202,9 +203,9 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
               type="button"
               onClick={handleRunPreCheck}
               disabled={aiChecking}
-              className="px-4 py-2 bg-gradient-to-r from-purple-700 to-[#5b21b6] hover:from-purple-800 hover:to-[#4c1d95] text-white rounded-xl font-bold flex items-center gap-2 transition shadow-sm cursor-pointer disabled:opacity-50"
+              className="px-4 py-2 bg-gradient-to-r from-[#0c455b] to-[#15acaf] hover:from-[#093242] hover:to-[#0e8b8e] text-white rounded-xl font-bold flex items-center gap-2 transition shadow-sm cursor-pointer disabled:opacity-50"
             >
-              <Sparkles className="w-4 h-4 text-amber-300" />
+              <Sparkles className="w-4 h-4 text-cyan-200" />
               <span>{aiChecking ? 'Evaluating Guidelines...' : 'Verify with AI Compliance Engine'}</span>
             </button>
           </div>
@@ -238,7 +239,7 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
         {/* Footer Actions */}
         <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
           <div className="text-[11px] text-slate-500 flex items-center gap-1">
-            <ShieldCheck className="w-4 h-4 text-purple-700" />
+            <ShieldCheck className="w-4 h-4 text-[#0c455b]" />
             <span>Under MPLADS 2023, DA must sanction or reject within 45 days.</span>
           </div>
 
@@ -254,7 +255,7 @@ export default function ProposalPreCheckModal({ isOpen, onClose, onSubmitSuccess
               type="button"
               onClick={handleFormalSubmit}
               disabled={submitting}
-              className="px-5 py-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-purple-950 font-black rounded-lg shadow-sm flex items-center gap-2 transition cursor-pointer disabled:opacity-50"
+              className="px-5 py-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-black rounded-lg shadow-sm flex items-center gap-2 transition cursor-pointer disabled:opacity-50"
             >
               <Send className="w-4 h-4" />
               <span>{submitting ? 'Submitting...' : 'Submit to District Authority'}</span>

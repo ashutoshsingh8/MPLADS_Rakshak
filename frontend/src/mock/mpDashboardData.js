@@ -49,15 +49,19 @@ export const mockVerificationCards = {
     photos: [
       {
         url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&auto=format&fit=crop&q=80',
-        caption: 'Final commissioning inspection',
+        caption: 'Rebar slab reinforcement',
       },
       {
         url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&auto=format&fit=crop&q=80',
-        caption: 'Solar panel array ground mount',
+        caption: 'Earthmoving & grading work',
       },
       {
-        url: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?w=600&auto=format&fit=crop&q=80',
-        caption: 'Piping network connection',
+        url: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&auto=format&fit=crop&q=80',
+        caption: 'Engineers on track inspection',
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&auto=format&fit=crop&q=80',
+        caption: 'Structural column erection',
       },
     ],
     exifVerified: true,
