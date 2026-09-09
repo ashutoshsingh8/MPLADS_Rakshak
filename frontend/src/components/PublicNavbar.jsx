@@ -101,8 +101,13 @@ export default function PublicNavbar({
               </div>
             ) : (
               <button
+                id="navbar-login-button"
                 onClick={onOpenLogin}
-                className="flex items-center gap-2 px-5 py-1.5 text-sm font-medium text-white border-2 border-white/90 rounded-md hover:bg-white hover:text-[#0f2e52] transition duration-200 shadow-sm cursor-pointer"
+                className={`flex items-center gap-2 px-5 py-1.5 text-sm font-medium rounded-md transition duration-200 shadow-sm cursor-pointer ${
+                  activeTab === 'login'
+                    ? 'bg-white text-[#0f2e52] border-2 border-white font-semibold'
+                    : 'text-white border-2 border-white/90 hover:bg-white hover:text-[#0f2e52]'
+                }`}
               >
                 <LogIn className="w-4 h-4" />
                 <span>Login</span>
@@ -114,8 +119,13 @@ export default function PublicNavbar({
           <div className="flex md:hidden items-center gap-2">
             {!authenticatedUser && (
               <button
+                id="mobile-login-button"
                 onClick={onOpenLogin}
-                className="px-3 py-1 text-xs font-medium text-white border border-white/80 rounded hover:bg-white hover:text-[#0f2e52] transition"
+                className={`px-3 py-1 text-xs font-medium rounded transition cursor-pointer ${
+                  activeTab === 'login'
+                    ? 'bg-white text-[#0f2e52] font-semibold'
+                    : 'text-white border border-white/80 hover:bg-white hover:text-[#0f2e52]'
+                }`}
               >
                 Login
               </button>

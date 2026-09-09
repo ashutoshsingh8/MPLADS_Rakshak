@@ -8,6 +8,7 @@ import MinistryDashboard from './views/MinistryDashboard';
 import DistrictAuthorityDashboard from './views/DistrictAuthorityDashboard';
 import MPDashboard from './views/MPDashboard';
 import ContractorPortal from './views/ContractorPortal';
+import LoginPage from './views/LoginPage';
 import GISMapViewer from './components/GISMapViewer';
 
 import { getProjects, queryGuidelines } from './services/api';
@@ -25,7 +26,25 @@ const ROLE_VIEWS = {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      if (['login', 'projects', 'map', 'guidelines', 'about', 'contact'].includes(hash)) {
+        return hash;
+      }
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('tab')) return params.get('tab');
+    }
+    return 'home';
+  });
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (typeof window !== 'undefined') {
+      window.location.hash = tab === 'home' ? '' : tab;
+    }
+  };
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isFraudModalOpen, setIsFraudModalOpen] = useState(false);
 
@@ -131,13 +150,25 @@ export default function App() {
     );
   }
 
+  // If user navigated to official department login page
+  if (activeTab === 'login') {
+    return (
+      <LoginPage
+        onBackToPublic={() => handleTabChange('home')}
+        onLoginSuccess={(userData) => {
+          handleLoginSuccess(userData);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen gov-portal-bg text-slate-800 flex flex-col justify-between">
       {/* ── Top Navigation Bar matching reference design ─────── */}
       <PublicNavbar
         activeTab={activeTab}
-        onTabChange={setActiveTab}
-        onOpenLogin={() => setIsLoginModalOpen(true)}
+        onTabChange={handleTabChange}
+        onOpenLogin={() => handleTabChange('login')}
         authenticatedUser={authenticatedUser}
         onLogout={handleLogout}
         onOpenDashboard={() => setShowRoleDashboard(true)}
@@ -478,10 +509,11 @@ export default function App() {
             <span>Designed for Public Transparency & Decision Support</span>
             <span>•</span>
             <button
-              onClick={() => setIsLoginModalOpen(true)}
+              id="footer-login-button"
+              onClick={() => setActiveTab('login')}
               className="text-amber-300 hover:underline font-semibold cursor-pointer"
             >
-              Department Login
+              Login
             </button>
           </div>
         </div>
