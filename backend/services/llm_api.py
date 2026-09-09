@@ -665,7 +665,12 @@ def check_rag_health() -> dict:
 
         for col in collections.collections:
             if col.name == settings.QDRANT_COLLECTION_NAME:
-                status["collection"] = f"ready ({col.points_count} points)"
+                try:
+                    col_info = client.get_collection(col.name)
+                    pts = getattr(col_info, 'points_count', None) or getattr(col_info, 'vectors_count', 0)
+                    status["collection"] = f"ready ({pts} points)"
+                except Exception:
+                    status["collection"] = "ready"
                 break
     except Exception as e:
         status["qdrant"] = f"error: {str(e)}"

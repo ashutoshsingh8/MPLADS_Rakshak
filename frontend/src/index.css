@@ -195,3 +195,48 @@
 .leaflet-popup-tip {
   background: #1E293B !important;
 }
+
+/* ── Public Portal Tokens & Government Styling ─────── */
+.gov-navy-header {
+  background-color: #0f2e52;
+}
+
+.gov-portal-bg {
+  background-color: #eef3f8;
+}
+
+.portal-hero-gradient {
+  background: linear-gradient(135deg, #164e63 0%, #1b5c74 50%, #247b93 100%);
+}
+
+.portal-card {
+  background-color: #ffffff;
+  border: 1px solid #d8e3ed;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(15, 46, 82, 0.05);
+}
+
+.portal-mint-box {
+  background-color: #e8f4f4;
+  border: 1px solid #cce8e8;
+}
+
+.portal-btn-primary {
+  background-color: #1c6877;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+.portal-btn-primary:hover {
+  background-color: #15505c;
+}
+
+.portal-btn-outline {
+  border: 1px solid #1c6877;
+  color: #1c6877;
+  background-color: #f2f9f9;
+  transition: all 0.2s ease-in-out;
+}
+.portal-btn-outline:hover {
+  background-color: #e2f2f2;
+}
+
