@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, User, ChevronDown, ArrowLeft, LogOut, Bell, Shield, CheckCircle } from 'lucide-react';
 import { mockMpProfile } from '../../mock/mpDashboardData';
+import mpladLogo from '../../assets/mplad_rakshak_logo.jpeg';
 
 export default function MPHeader({ onExitToPublic, onLogout, onSearch }) {
   const [searchValue, setSearchValue] = useState('');
@@ -15,16 +16,13 @@ export default function MPHeader({ onExitToPublic, onLogout, onSearch }) {
     <header className="bg-[#0c455b] text-white px-4 sm:px-6 py-3 shadow-md flex items-center justify-between sticky top-0 z-40 border-b border-[#155a75]/50 select-none">
       {/* ── Left: Parliament / Sansad Emblem & Title ───────── */}
       <div className="flex items-center gap-3">
-        {/* Sansad circular emblem SVG */}
-        <div className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full p-1 border border-white/20 shrink-0">
-          <svg viewBox="0 0 100 100" className="w-full h-full fill-white text-white">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="4" />
-            <circle cx="50" cy="50" r="14" fill="currentColor" />
-            {/* Parliament colonnade pillars motif */}
-            <path d="M25 65 L25 45 M35 65 L35 45 M45 65 L45 45 M55 65 L55 45 M65 65 L65 45 M75 65 L75 45" stroke="currentColor" strokeWidth="3" />
-            <path d="M20 45 L80 45 L50 22 Z" fill="currentColor" />
-            <text x="50" y="85" textAnchor="middle" fontSize="9" fontWeight="bold" fill="currentColor">लोक सभा</text>
-          </svg>
+        {/* MPLAD Rakshak Official Logo */}
+        <div className="w-10 h-10 flex items-center justify-center bg-white rounded-lg p-0.5 border border-white/30 shadow-xs overflow-hidden shrink-0">
+          <img
+            src={mpladLogo}
+            alt="MPLAD Rakshak Logo"
+            className="w-full h-full object-contain"
+          />
         </div>
 
         <div>

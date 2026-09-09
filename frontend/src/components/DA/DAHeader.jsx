@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { RotateCw, Bell, ChevronDown, LogOut, ArrowLeft, Shield, AlertTriangle, CheckCircle } from 'lucide-react';
 import { daOfficerProfile } from '../../mock/daDashboardData';
+import mpladLogo from '../../assets/mplad_rakshak_logo.jpeg';
 
 export default function DAHeader({ onExitToPublic, onLogout, onRefresh, isRefreshing }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,16 +11,13 @@ export default function DAHeader({ onExitToPublic, onLogout, onRefresh, isRefres
     <header className="bg-[#1f7a6b] text-white px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-sm border-b border-[#186054] sticky top-0 z-40">
       {/* Left: State Seal & District Authority Title */}
       <div className="flex items-center gap-3">
-        {/* Circular State Seal (matches image) */}
-        <div className="w-10 h-10 rounded-full border-2 border-white/80 bg-white/10 flex items-center justify-center p-1.5 shadow-xs flex-shrink-0">
-          <svg viewBox="0 0 100 100" className="w-full h-full fill-white" aria-label="Indian State Seal">
-            {/* Ashoka Chakra & Lions Silhouette representation */}
-            <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" strokeWidth="4" strokeDasharray="3,3" />
-            <circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" strokeWidth="2.5" />
-            <circle cx="50" cy="50" r="6" fill="currentColor" />
-            <path d="M50 20 L50 80 M20 50 L80 50 M29 29 L71 71 M29 71 L71 29" stroke="currentColor" strokeWidth="2.5" />
-            <path d="M50 14 L53 22 L47 22 Z M50 86 L53 78 L47 78 Z M14 50 L22 47 L22 53 Z M86 50 L78 47 L78 53 Z" fill="currentColor" />
-          </svg>
+        {/* MPLAD Rakshak Official Logo */}
+        <div className="w-10 h-10 flex items-center justify-center bg-white rounded-lg p-0.5 border border-white/30 shadow-xs overflow-hidden flex-shrink-0">
+          <img
+            src={mpladLogo}
+            alt="MPLAD Rakshak Logo"
+            className="w-full h-full object-contain"
+          />
         </div>
 
         <div>

@@ -15,6 +15,7 @@ import FinancialsForecasting from './FinancialsForecasting';
 import PolicyComplianceEngine from './PolicyComplianceEngine';
 import SystemHealth from './SystemHealth';
 import { getDashboardSummary, getProjects, getAnomalies } from '../../services/api';
+import mpladLogo from '../../assets/mplad_rakshak_logo.jpeg';
 
 export default function MinistryDashboard({ onExitToPublic, onLogout, currentUser }) {
   const [activeTab, setActiveTab] = useState(() => {
@@ -67,15 +68,13 @@ export default function MinistryDashboard({ onExitToPublic, onLogout, currentUse
       <header className="bg-[#2f6ea6] text-white px-4 sm:px-6 py-2.5 shadow-md flex items-center justify-between sticky top-0 z-40">
         {/* Left: Ashoka Emblem + Title */}
         <div className="flex items-center gap-3">
-          {/* Ashoka Lion Capital Emblem SVG */}
-          <div className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg p-1 border border-white/20">
-            <svg viewBox="0 0 100 100" className="w-full h-full fill-amber-300">
-              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="4" />
-              <circle cx="50" cy="50" r="12" fill="currentColor" />
-              <path d="M50 15 L50 38 M50 62 L50 85 M15 50 L38 50 M62 50 L85 50" stroke="currentColor" strokeWidth="4" />
-              <path d="M25 25 L40 40 M60 60 L75 75 M25 75 L40 60 M60 40 L75 25" stroke="currentColor" strokeWidth="3" />
-              <text x="50" y="93" textAnchor="middle" fontSize="10" fontWeight="bold" fill="currentColor">सत्यमेव जयते</text>
-            </svg>
+          {/* MPLAD Rakshak Official Logo */}
+          <div className="w-10 h-10 flex items-center justify-center bg-white rounded-lg p-0.5 border border-white/30 shadow-xs overflow-hidden shrink-0">
+            <img
+              src={mpladLogo}
+              alt="MPLAD Rakshak Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
 
           <div>
