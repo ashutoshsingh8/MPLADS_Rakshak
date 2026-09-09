@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Menu, X, LogIn, LogOut, LayoutDashboard, ShieldCheck } from 'lucide-react';
+import mpladLogo from '../assets/mplad_rakshak_logo.jpeg';
+import mpladText from '../assets/mplad_rakshak_text.jpeg';
 
 export default function PublicNavbar({
   activeTab = 'home',
@@ -27,34 +29,26 @@ export default function PublicNavbar({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-18">
-          {/* Emblem & Portal Title */}
+          {/* Brand Emblem Logo & Title Image */}
           <div
             onClick={() => onTabChange && onTabChange('home')}
-            className="flex items-center gap-3 cursor-pointer group"
+            className="flex items-center gap-2 sm:gap-3 cursor-pointer group bg-white px-2.5 py-1 rounded-xl shadow-xs border border-white/30 transition select-none"
+            title="MPLAD Rakshak"
           >
-            {/* Ashoka Emblem SVG */}
-            <div className="w-10 h-10 flex items-center justify-center bg-white/10 rounded-lg p-1.5 border border-white/20 group-hover:bg-white/15 transition">
-              <svg viewBox="0 0 100 100" className="w-full h-full fill-amber-300">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="4" />
-                <circle cx="50" cy="50" r="12" fill="currentColor" />
-                <path d="M50 15 L50 38 M50 62 L50 85 M15 50 L38 50 M62 50 L85 50" stroke="currentColor" strokeWidth="4" />
-                <path d="M25 25 L40 40 M60 60 L75 75 M25 75 L40 60 M60 40 L75 25" stroke="currentColor" strokeWidth="3" />
-                <text x="50" y="93" textAnchor="middle" fontSize="10" fontWeight="bold" fill="currentColor">सत्यमेव जयते</text>
-              </svg>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-base sm:text-lg tracking-tight text-white flex items-center gap-1.5">
-                  MPLAD Rakshak
-                  <span className="text-[10px] font-semibold bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 px-1.5 py-0.5 rounded">
-                    AI Portal
-                  </span>
-                </span>
-              </div>
-              <p className="text-[10px] sm:text-xs text-slate-300 tracking-wider">
-                Government of India • MoSPI Decision Support
-              </p>
-            </div>
+            {/* MPLAD Rakshak Logo */}
+            <img
+              src={mpladLogo}
+              alt="MPLAD Rakshak Logo"
+              className="h-10 sm:h-11 w-auto object-contain flex-shrink-0"
+              style={{ minWidth: '50px', height: '40px' }}
+            />
+            {/* MPLAD Rakshak Image */}
+            <img
+              src={mpladText}
+              alt="MPLAD Rakshak"
+              className="h-8 sm:h-9 w-auto object-contain flex-shrink-0"
+              style={{ minWidth: '70px', height: '34px' }}
+            />
           </div>
 
           {/* Desktop Navigation Links */}
