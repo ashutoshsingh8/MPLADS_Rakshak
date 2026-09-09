@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Bell,
-  Headphones,
   User,
   LogOut,
   ArrowLeft,
@@ -101,14 +100,6 @@ export default function MinistryDashboard({ onExitToPublic, onLogout, currentUse
               <span className="hidden md:inline">Exit to Public Portal</span>
             </button>
           )}
-
-          {/* Support Headset Icon */}
-          <button
-            className="p-2 rounded-full hover:bg-white/15 text-blue-100 hover:text-white transition cursor-pointer"
-            title="Citizen & Officer Helpline: 1800-11-8080"
-          >
-            <Headphones className="w-4 h-4" />
-          </button>
 
           {/* Notification Bell with Badge (1) */}
           <button
