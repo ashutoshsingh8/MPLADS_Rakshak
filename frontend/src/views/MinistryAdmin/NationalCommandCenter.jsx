@@ -38,7 +38,7 @@ import {
 } from './mockMinistryData';
 
 export default function NationalCommandCenter({ projects = [], summary }) {
-  const [subView, setSubView] = useState('executive'); // 'executive' | 'heatmap' | 'agencies'
+  const [subView, setSubView] = useState('heatmap'); // 'heatmap' is default per user request
   const [selectedState, setSelectedState] = useState(mockStateUtilization[0]);
 
   // Mini sparkline renderer using SVG
@@ -88,16 +88,6 @@ export default function NationalCommandCenter({ projects = [], summary }) {
           {/* Sub-View Switcher Pills */}
           <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-semibold">
             <button
-              onClick={() => setSubView('executive')}
-              className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
-                subView === 'executive'
-                  ? 'bg-white text-slate-900 shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Executive KPIs
-            </button>
-            <button
               onClick={() => setSubView('heatmap')}
               className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
                 subView === 'heatmap'
@@ -106,6 +96,16 @@ export default function NationalCommandCenter({ projects = [], summary }) {
               }`}
             >
               Fund Heatmap
+            </button>
+            <button
+              onClick={() => setSubView('executive')}
+              className={`px-3 py-1.5 rounded-lg transition cursor-pointer ${
+                subView === 'executive'
+                  ? 'bg-white text-slate-900 shadow-xs font-bold'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              Performance Indicators
             </button>
             <button
               onClick={() => setSubView('agencies')}
@@ -189,7 +189,7 @@ export default function NationalCommandCenter({ projects = [], summary }) {
             <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-6">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 className="text-sm font-black tracking-wider text-slate-800 uppercase">
-                  OVERALL KPIS
+                  OVERALL PERFORMANCE INDICATORS
                 </h3>
                 <span className="text-xs text-slate-400 font-medium">FY 2026-27 Multi-Metric Analytics</span>
               </div>

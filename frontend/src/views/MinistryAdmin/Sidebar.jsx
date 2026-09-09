@@ -4,13 +4,8 @@ import {
   ShieldAlert,
   Scale,
   TrendingUp,
-  Users,
-  Activity,
-  Settings,
   ChevronRight,
-  Shield,
-  FileCheck,
-  AlertTriangle
+  Shield
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, onTabChange, alertCount = 3 }) {
@@ -19,7 +14,7 @@ export default function Sidebar({ activeTab, onTabChange, alertCount = 3 }) {
       id: 'overview',
       label: 'Global Overview',
       icon: LayoutGrid,
-      desc: 'Macro KPIs & National Heatmap',
+      desc: 'Performance Indicators & Fund Heatmap',
     },
     {
       id: 'fraud',
@@ -39,24 +34,6 @@ export default function Sidebar({ activeTab, onTabChange, alertCount = 3 }) {
       label: 'Financials & Forecast',
       icon: TrendingUp,
       desc: 'Outlay & Cost Overrun Radar',
-    },
-    {
-      id: 'users',
-      label: 'User Management',
-      icon: Users,
-      desc: 'DA, MP & Agency Roster',
-    },
-    {
-      id: 'health',
-      label: 'System Health',
-      icon: Activity,
-      desc: 'Qdrant, MySQL & LLM Pulse',
-    },
-    {
-      id: 'settings',
-      label: 'Settings',
-      icon: Settings,
-      desc: 'Thresholds & Audit Rules',
     },
   ];
 

@@ -6,6 +6,7 @@ import {
   Sparkles,
   ExternalLink,
   ChevronRight,
+  ChevronDown,
   X,
   CheckCircle,
   Copy,
@@ -64,10 +65,19 @@ export default function FraudRiskIntelligence() {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="px-3 py-1.5 rounded-lg bg-red-100 text-red-800 text-xs font-bold flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
-            4 Critical Anomalies Active
-          </span>
+          <button
+            onClick={() => {
+              setAlertFilter('CRITICAL');
+              const el = document.getElementById('high-priority-risk-alerts-feed');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-700 active:bg-red-800 text-white text-xs font-bold flex items-center gap-2 transition shadow-sm hover:shadow cursor-pointer group"
+            title="Click to jump down to High-Priority Risk Alerts Feed"
+          >
+            <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+            <span>4 Critical Anomalies Active</span>
+            <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+          </button>
         </div>
       </div>
 
@@ -104,7 +114,7 @@ export default function FraudRiskIntelligence() {
       </div>
 
       {/* ── Critical Fraud Alerts Feed ───────────────────────── */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
+      <div id="high-priority-risk-alerts-feed" className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4 scroll-mt-20">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div>
             <h3 className="text-sm font-bold text-slate-900 uppercase">

@@ -13,7 +13,6 @@ import NationalCommandCenter from './NationalCommandCenter';
 import FraudRiskIntelligence from './FraudRiskIntelligence';
 import FinancialsForecasting from './FinancialsForecasting';
 import PolicyComplianceEngine from './PolicyComplianceEngine';
-import SystemHealth from './SystemHealth';
 import { getDashboardSummary, getProjects, getAnomalies } from '../../services/api';
 import mpladLogo from '../../assets/mplad_rakshak_logo.jpeg';
 
@@ -21,7 +20,7 @@ export default function MinistryDashboard({ onExitToPublic, onLogout, currentUse
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
-      if (['overview', 'fraud', 'policy', 'financials', 'health', 'users', 'settings'].includes(hash)) {
+      if (['overview', 'fraud', 'policy', 'financials'].includes(hash)) {
         return hash;
       }
       const params = new URLSearchParams(window.location.search);
@@ -174,18 +173,6 @@ export default function MinistryDashboard({ onExitToPublic, onLogout, currentUse
 
           {activeTab === 'financials' && (
             <FinancialsForecasting />
-          )}
-
-          {activeTab === 'health' && (
-            <SystemHealth />
-          )}
-
-          {activeTab === 'users' && (
-            <SystemHealth />
-          )}
-
-          {activeTab === 'settings' && (
-            <PolicyComplianceEngine />
           )}
         </main>
       </div>
