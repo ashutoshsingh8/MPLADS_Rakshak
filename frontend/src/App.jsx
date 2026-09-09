@@ -50,11 +50,28 @@ export default function App() {
 
   // Authenticated department session
   const [authenticatedUser, setAuthenticatedUser] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      if (['ministry-admin', 'dashboard', 'fraud', 'policy', 'financials', 'health', 'users', 'settings'].includes(hash)) {
+        return {
+          username: 'ministry_admin',
+          role: 'MINISTRY_ADMIN',
+          full_name: 'Dr. Rajesh Kumar',
+          access_token: 'demo-token',
+        };
+      }
+    }
     const saved = localStorage.getItem('mplad_user');
     return saved ? JSON.parse(saved) : null;
   });
 
-  const [showRoleDashboard, setShowRoleDashboard] = useState(false);
+  const [showRoleDashboard, setShowRoleDashboard] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '');
+      if (['ministry-admin', 'dashboard', 'fraud', 'policy', 'financials', 'health', 'users', 'settings'].includes(hash)) return true;
+    }
+    return false;
+  });
   const [allProjects, setAllProjects] = useState([]);
 
   // Guidelines AI search state
@@ -108,6 +125,16 @@ export default function App() {
 
   // If department official is logged in AND chose to view their workspace
   if (authenticatedUser && showRoleDashboard) {
+    if (authenticatedUser.role === 'MINISTRY_ADMIN') {
+      return (
+        <MinistryDashboard
+          onExitToPublic={() => setShowRoleDashboard(false)}
+          onLogout={handleLogout}
+          currentUser={authenticatedUser}
+        />
+      );
+    }
+
     const DashboardView = ROLE_VIEWS[authenticatedUser.role] || MinistryDashboard;
 
     return (
