@@ -60,6 +60,15 @@ export default function App() {
           access_token: 'demo-token',
         };
       }
+      if (['mp', 'mp-dashboard', 'mp-portal', 'nominations', 'mp-nominations', 'approved', 'approved-works', 'funding', 'prerequisites', 'map', 'photos', 'site-updates', 'help', 'new-proposal', 'pre-check'].includes(hash)) {
+        return {
+          username: 'mp_pune',
+          role: 'MP',
+          full_name: 'Shri Vijay Patil',
+          constituency: 'Pune (Maharashtra)',
+          access_token: 'demo-token-mp',
+        };
+      }
     }
     const saved = localStorage.getItem('mplad_user');
     return saved ? JSON.parse(saved) : null;
@@ -68,7 +77,7 @@ export default function App() {
   const [showRoleDashboard, setShowRoleDashboard] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
-      if (['ministry-admin', 'dashboard', 'fraud', 'policy', 'financials', 'health', 'users', 'settings'].includes(hash)) return true;
+      if (['ministry-admin', 'dashboard', 'fraud', 'policy', 'financials', 'health', 'users', 'settings', 'mp', 'mp-dashboard', 'mp-portal', 'nominations', 'mp-nominations', 'approved', 'approved-works', 'funding', 'prerequisites', 'map', 'photos', 'site-updates', 'help', 'new-proposal', 'pre-check'].includes(hash)) return true;
     }
     return false;
   });
@@ -128,6 +137,16 @@ export default function App() {
     if (authenticatedUser.role === 'MINISTRY_ADMIN') {
       return (
         <MinistryDashboard
+          onExitToPublic={() => setShowRoleDashboard(false)}
+          onLogout={handleLogout}
+          currentUser={authenticatedUser}
+        />
+      );
+    }
+
+    if (authenticatedUser.role === 'MP') {
+      return (
+        <MPDashboard
           onExitToPublic={() => setShowRoleDashboard(false)}
           onLogout={handleLogout}
           currentUser={authenticatedUser}
