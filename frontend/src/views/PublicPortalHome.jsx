@@ -92,7 +92,15 @@ const getContractorAndTenderDetails = (project) => {
   };
 };
 
-export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects, onOpenFraudReport }) {
+export default function PublicPortalHome({
+  onNavigateToMap,
+  onNavigateToProjects,
+  onNavigateToGuidelines,
+  onNavigateToAbout,
+  onNavigateToContact,
+  onNavigateToLogin,
+  onOpenFraudReport,
+}) {
   const [keyword, setKeyword] = useState('');
   const [selectedState, setSelectedState] = useState('ALL');
   const [selectedDistrict, setSelectedDistrict] = useState('ALL');
@@ -104,6 +112,7 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
   const [loading, setLoading] = useState(true);
   const [activeSubTab, setActiveSubTab] = useState('QUICK SEARCH');
   const [selectedProjectModal, setSelectedProjectModal] = useState(null);
+  const [infoModal, setInfoModal] = useState(null);
 
   // States & Districts list from seeded data
   const stateDistricts = {
@@ -255,6 +264,7 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
             <div className="max-w-xl mx-auto mb-4">
               <div className="relative flex items-center shadow-lg rounded-xl overflow-hidden bg-white">
                 <input
+                  id="public-search-input"
                   type="text"
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
@@ -263,6 +273,10 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
                 />
                 <button
                   type="button"
+                  onClick={() => {
+                    const el = document.getElementById('search-filter-area');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="bg-[#1c6877] hover:bg-[#15505c] text-white px-5 py-3.5 transition flex items-center justify-center cursor-pointer"
                   title="Search"
                 >
@@ -271,78 +285,112 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
               </div>
             </div>
 
-            {/* Sub Tabs: ANALYSIS MAP | QUICK SEARCH | CUSTOM VIEW */}
-            <div className="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm font-semibold tracking-wider text-teal-100 pt-1 pb-4">
+            {/* Sub Tabs: ANALYSIS MAP | QUICK SEARCH (Custom View removed) */}
+            <div className="flex items-center justify-center gap-6 sm:gap-10 text-xs sm:text-sm font-bold tracking-wider text-teal-100 pt-1 pb-4">
               <button
                 onClick={() => {
                   setActiveSubTab('ANALYSIS MAP');
                   onNavigateToMap && onNavigateToMap();
                 }}
-                className="hover:text-white uppercase transition pb-1 border-b-2 border-transparent hover:border-white"
+                className="hover:text-white uppercase transition pb-1.5 border-b-2 border-transparent hover:border-white/80 flex items-center gap-1.5 cursor-pointer"
               >
-                ANALYSIS MAP
+                <MapPin className="w-3.5 h-3.5 text-amber-300" />
+                <span>ANALYSIS MAP</span>
               </button>
               <button
                 onClick={() => setActiveSubTab('QUICK SEARCH')}
-                className={`uppercase transition pb-1 border-b-2 ${
-                  activeSubTab === 'QUICK SEARCH' ? 'border-white text-white' : 'border-transparent hover:border-white'
+                className={`uppercase transition pb-1.5 border-b-2 cursor-pointer flex items-center gap-1.5 ${
+                  activeSubTab === 'QUICK SEARCH'
+                    ? 'border-white text-white font-black'
+                    : 'border-transparent text-teal-200 hover:border-white/80 hover:text-white'
                 }`}
               >
-                QUICK SEARCH
-              </button>
-              <button
-                onClick={() => {
-                  setActiveSubTab('CUSTOM VIEW');
-                  setSelectedState('ALL');
-                  setSelectedDistrict('ALL');
-                  setSelectedCategory('ALL');
-                }}
-                className="hover:text-white uppercase transition pb-1 border-b-2 border-transparent hover:border-white"
-              >
-                CUSTOM VIEW
+                <Search className="w-3.5 h-3.5 text-amber-300" />
+                <span>QUICK SEARCH</span>
               </button>
             </div>
 
-            {/* Graphic Illustration Section matching image */}
-            <div className="mt-2 max-w-2xl mx-auto bg-white/10 rounded-2xl p-4 sm:p-6 backdrop-blur-xs border border-white/20 flex flex-col sm:flex-row items-center justify-between gap-6">
-              {/* Illustrated SVG Figures & Dashboards */}
-              <div className="flex-1 flex items-center justify-center gap-4 w-full">
-                {/* Visual Cards Mockup */}
-                <div className="bg-white rounded-lg shadow-md p-2.5 w-44 text-slate-800 transform -rotate-1 hidden sm:block">
-                  <div className="h-2 w-16 bg-teal-600 rounded mb-2" />
-                  <div className="space-y-1">
-                    <div className="h-1.5 w-full bg-slate-200 rounded" />
-                    <div className="h-1.5 w-4/5 bg-slate-200 rounded" />
-                    <div className="h-1.5 w-3/5 bg-slate-200 rounded" />
+            {/* Symmetrical Citizen Transparency & Audit Preview Banner */}
+            <div className="mt-3 max-w-4xl mx-auto bg-white/12 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-white/25 shadow-xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                {/* Left Column: Symmetrical Preview Cards (Flat, Symmetrical, Equal Height) */}
+                <div className="grid grid-cols-2 gap-3.5 w-full">
+                  {/* Card 1: Community Asset Audit */}
+                  <div className="bg-white rounded-xl shadow-md p-3.5 text-slate-800 border border-slate-100 flex flex-col justify-between h-34 hover:shadow-lg transition">
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[9px] font-black tracking-wider uppercase px-1.5 py-0.5 rounded bg-teal-50 text-teal-800 border border-teal-200">
+                          Civic Asset Audit
+                        </span>
+                        <span className="text-[9px] font-bold text-amber-600 bg-amber-50 px-1 rounded">75%</span>
+                      </div>
+                      <div className="text-[11px] font-bold text-slate-900 line-clamp-1">
+                        Panchayat Community Hall
+                      </div>
+                      <div className="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
+                        <MapPin className="w-2.5 h-2.5 text-teal-600 shrink-0" />
+                        <span className="truncate">Wadgaon, Pune</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mb-1.5">
+                        <div className="bg-teal-600 h-full rounded-full w-3/4" />
+                      </div>
+                      <div className="flex items-center justify-between text-[10px] text-slate-600">
+                        <span className="font-bold text-slate-800">₹32.00 Lakh</span>
+                        <span className="text-emerald-700 font-semibold">In Progress</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="mt-2 flex gap-1">
-                    <div className="h-6 w-1/3 bg-teal-100 rounded" />
-                    <div className="h-6 w-1/3 bg-amber-100 rounded" />
-                    <div className="h-6 w-1/3 bg-emerald-100 rounded" />
+
+                  {/* Card 2: GIS Map Verification */}
+                  <div className="bg-white rounded-xl shadow-md p-3.5 text-slate-800 border border-slate-100 flex flex-col justify-between h-34 hover:shadow-lg transition">
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[9px] font-black tracking-wider uppercase px-1.5 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">
+                          GIS GPS Centroid
+                        </span>
+                        <MapPin className="w-3 h-3 text-teal-600" />
+                      </div>
+                      <div className="text-[11px] font-bold text-slate-900">
+                        18.5204° N, 73.8567° E
+                      </div>
+                      <div className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
+                        <ShieldCheck className="w-3 h-3 text-emerald-600 shrink-0" />
+                        <span>0m GPS Anomaly</span>
+                      </div>
+                    </div>
+                    <div className="p-1.5 bg-slate-50 rounded-lg border border-slate-100 flex items-center justify-between text-[10px]">
+                      <span className="text-slate-500 font-mono text-[9px]">STATUTORY CHECK</span>
+                      <span className="text-emerald-700 font-bold">50m Verified</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Map Mockup */}
-                <div className="bg-white rounded-lg shadow-md p-2.5 w-44 text-slate-800 transform rotate-1 hidden sm:block">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[10px] font-bold text-slate-600">GIS MAP</span>
-                    <MapPin className="w-3 h-3 text-teal-600" />
+                {/* Right Column: Symmetrical Citizen Transparency Overview */}
+                <div className="flex flex-col justify-center text-left space-y-2.5">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 text-white rounded-full text-xs font-bold uppercase tracking-wider w-fit border border-white/20">
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
+                    <span>Citizen Transparency</span>
                   </div>
-                  <div className="h-16 bg-slate-100 rounded flex items-center justify-center relative overflow-hidden border border-slate-200">
-                    <div className="absolute inset-0 bg-blue-50/50" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
-                    <div className="w-2 h-2 rounded-full bg-teal-600 z-10" />
+                  <h4 className="text-base sm:text-lg font-black text-white tracking-wide leading-snug">
+                    Direct Public Oversight for ₹5 Cr Annual MP Funds
+                  </h4>
+                  <p className="text-xs text-teal-100 leading-relaxed">
+                    Search ₹5 Crore annual MP funds, geo-tagged civic infrastructure, and ground completion audits across India.
+                  </p>
+                  <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-teal-50">
+                    <span className="inline-flex items-center gap-1 bg-black/20 px-2.5 py-0.5 rounded-full border border-white/15">
+                      <Check className="w-3 h-3 text-emerald-300" /> 100% Geo-Tagged
+                    </span>
+                    <span className="inline-flex items-center gap-1 bg-black/20 px-2.5 py-0.5 rounded-full border border-white/15">
+                      <Check className="w-3 h-3 text-emerald-300" /> PFMS Escrow Audited
+                    </span>
+                    <span className="inline-flex items-center gap-1 bg-black/20 px-2.5 py-0.5 rounded-full border border-white/15">
+                      <Check className="w-3 h-3 text-emerald-300" /> Zero Login Needed
+                    </span>
                   </div>
                 </div>
-              </div>
-
-              <div className="text-center sm:text-right shrink-0">
-                <span className="inline-block px-3 py-1 bg-white/20 text-white rounded-full text-xs font-semibold uppercase tracking-wider mb-1">
-                  Citizen Transparency
-                </span>
-                <p className="text-xs text-teal-100 max-w-xs">
-                  Search ₹5 Crore annual MP funds, geo-tagged civic infrastructure, and ground completion audits across India.
-                </p>
               </div>
             </div>
           </div>
@@ -570,104 +618,214 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
             )}
           </div>
 
-          {/* ── Quick Links & About Section (Matching Screenshot) ─ */}
+          {/* ── Quick Links & About Section (Cleaned & 100% Functional) ─ */}
           <div className="p-6 sm:p-8 bg-white border-t border-slate-200">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Quick Links (2 Columns in Grid) */}
+              {/* Quick Links (Cleaned into 3 Functional Pillars) */}
               <div className="lg:col-span-2">
-                <h4 className="text-sm font-black text-slate-800 uppercase tracking-wider mb-4">
-                  QUICK LINKS
-                </h4>
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-sm font-black text-slate-800 uppercase tracking-wider">
+                    QUICK LINKS
+                  </h4>
+                  <span className="text-[11px] text-teal-800 font-semibold bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200">
+                    Citizen Transparency Services
+                  </span>
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-2 gap-x-4 text-xs">
-                  {/* Column 1 */}
-                  <ul className="space-y-2 text-slate-600">
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Public Search</span>
-                    </li>
-                    <li
-                      onClick={onNavigateToMap}
-                      className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer font-medium"
-                    >
-                      <span className="w-1 h-1 rounded-full bg-teal-600" />
-                      <span>Constituency Map</span>
-                    </li>
-                    <li
-                      onClick={onNavigateToMap}
-                      className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer font-medium"
-                    >
-                      <span className="w-1 h-1 rounded-full bg-teal-600" />
-                      <span>Analytics Map</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Constituent Map</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Guideline Smart Search</span>
-                    </li>
-                  </ul>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-3 gap-x-6 text-xs">
+                  {/* Column 1: Citizen Search & Projects */}
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                      Search & Projects
+                    </span>
+                    <ul className="space-y-2 text-slate-600">
+                      <li>
+                        <button
+                          onClick={() => {
+                            const el = document.getElementById('search-section');
+                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                            const input = document.getElementById('public-search-input');
+                            if (input) setTimeout(() => input.focus(), 300);
+                          }}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <Search className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                          <span>Public Project Search</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={onNavigateToProjects}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <FileText className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                          <span>Projects Directory</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={onNavigateToMap}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <MapPin className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                          <span>Interactive Analytics Map</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={onNavigateToGuidelines}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <BookOpen className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+                          <span>MPLADS Rules & AI Assistant</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
 
-                  {/* Column 2 */}
-                  <ul className="space-y-2 text-slate-600">
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Government Search</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Scheme Map</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Constituency Map</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Audit Reports</span>
-                    </li>
-                  </ul>
+                  {/* Column 2: Vigilance & Integrity */}
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                      Vigilance & Quotas
+                    </span>
+                    <ul className="space-y-2 text-slate-600">
+                      <li>
+                        <button
+                          onClick={() => onOpenFraudReport && onOpenFraudReport(null)}
+                          className="flex items-center gap-1.5 text-red-600 hover:text-red-800 font-bold transition cursor-pointer text-left"
+                        >
+                          <ShieldAlert className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                          <span>Report Fraud / Anomaly</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => setInfoModal('SLA_RULES')}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <Clock className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <span>Statutory 45-Day Sanction SLA</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => setInfoModal('SC_ST_RULES')}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <Award className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                          <span>SC / ST Welfare Quotas (15% & 7.5%)</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => setInfoModal('CPWD_RULES')}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                          <span>CPWD Rate Benchmarks</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
 
-                  {/* Column 3 */}
-                  <ul className="space-y-2 text-slate-600">
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Constituents</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Guideline Map</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Constraint Map</span>
-                    </li>
-                    <li className="flex items-center gap-1.5 hover:text-teal-700 cursor-pointer">
-                      <span className="w-1 h-1 rounded-full bg-slate-400" />
-                      <span>Additional Map</span>
-                    </li>
-                  </ul>
+                  {/* Column 3: Portals & Governance */}
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                      Official Governance
+                    </span>
+                    <ul className="space-y-2 text-slate-600">
+                      <li>
+                        <button
+                          onClick={onNavigateToLogin}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <Landmark className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                          <span>Department Official Login</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={onNavigateToContact}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <Phone className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                          <span>MoSPI Grievance Cell</span>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={onNavigateToAbout}
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <Info className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                          <span>About MPLAD Rakshak</span>
+                        </button>
+                      </li>
+                      <li>
+                        <a
+                          href="https://www.mplads.gov.in/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer text-left"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5 text-teal-700 shrink-0" />
+                          <span>Official MoSPI Scheme Portal</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
 
-              {/* About Box matching screenshot */}
-              <div className="portal-mint-box p-5 rounded-xl flex flex-col justify-between">
+              {/* About Box matching design */}
+              <div className="portal-mint-box p-5 rounded-xl flex flex-col justify-between border border-teal-200/60 shadow-xs">
                 <div>
-                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider mb-2">
-                    ABOUT
-                  </h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Home • Projects • Scheme • Contact • Constraint • Constraint Map • Analysis • Login
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <Landmark className="w-4 h-4 text-teal-800" />
+                    <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">
+                      ABOUT MPLAD RAKSHAK
+                    </h4>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed mb-3">
+                    AI-powered public vigilance and real-time anomaly detection engine for the Member of Parliament Local Area Development Scheme (MPLADS), MoSPI, Government of India.
                   </p>
+                  <div className="flex flex-wrap gap-1.5 text-[10px]">
+                    <button
+                      onClick={onNavigateToProjects}
+                      className="px-2 py-0.5 bg-white rounded border border-teal-300 text-teal-800 hover:bg-teal-50 transition cursor-pointer font-medium"
+                    >
+                      Projects
+                    </button>
+                    <button
+                      onClick={onNavigateToMap}
+                      className="px-2 py-0.5 bg-white rounded border border-teal-300 text-teal-800 hover:bg-teal-50 transition cursor-pointer font-medium"
+                    >
+                      Analytics Map
+                    </button>
+                    <button
+                      onClick={onNavigateToGuidelines}
+                      className="px-2 py-0.5 bg-white rounded border border-teal-300 text-teal-800 hover:bg-teal-50 transition cursor-pointer font-medium"
+                    >
+                      AI Rules
+                    </button>
+                    <button
+                      onClick={onNavigateToLogin}
+                      className="px-2 py-0.5 bg-white rounded border border-teal-300 text-teal-800 hover:bg-teal-50 transition cursor-pointer font-medium"
+                    >
+                      Login
+                    </button>
+                  </div>
                 </div>
 
-                <div className="pt-4 flex items-center justify-between text-slate-700">
-                  <Landmark className="w-8 h-8 text-teal-800" />
-                  <span className="text-xs font-bold text-teal-800 hover:underline cursor-pointer">
-                    See more
-                  </span>
+                <div className="pt-4 flex items-center justify-between text-slate-700 border-t border-teal-100">
+                  <span className="text-[11px] text-slate-500 font-mono">PS 26102 • MoSPI</span>
+                  <button
+                    onClick={onNavigateToAbout}
+                    className="text-xs font-bold text-teal-800 hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>See more</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -678,7 +836,7 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
             <div className="flex flex-wrap items-center justify-around sm:justify-between gap-3 text-slate-600 text-xs">
               {/* See details */}
               <button
-                onClick={() => alert('MPLADS provides ₹5 Crore annually to MPs for durable community infrastructure.')}
+                onClick={() => setInfoModal('DETAILS')}
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer"
               >
                 <Info className="w-4 h-4 text-teal-700" />
@@ -687,7 +845,7 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
 
               {/* See more */}
               <button
-                onClick={() => onNavigateToProjects && onNavigateToProjects()}
+                onClick={onNavigateToProjects}
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium cursor-pointer"
               >
                 <MoreHorizontal className="w-4 h-4 text-teal-700" />
@@ -696,7 +854,12 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
 
               {/* PUBLIC SEARCH */}
               <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                onClick={() => {
+                  const el = document.getElementById('search-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  const input = document.getElementById('public-search-input');
+                  if (input) setTimeout(() => input.focus(), 300);
+                }}
                 className="flex items-center gap-1.5 text-teal-900 font-bold uppercase transition bg-teal-50 px-3 py-1 rounded border border-teal-200 cursor-pointer"
               >
                 <Search className="w-4 h-4 text-teal-700" />
@@ -714,7 +877,7 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
 
               {/* USER GUIDE */}
               <button
-                onClick={() => alert('Download official citizen portal guide for tracking MPLADS local development.')}
+                onClick={onNavigateToGuidelines}
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium uppercase cursor-pointer"
               >
                 <BookOpen className="w-4 h-4 text-teal-700" />
@@ -723,7 +886,7 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
 
               {/* FAQ */}
               <button
-                onClick={() => alert('FAQ: District Authorities sanction works within 45 days. Works are completed in 1 year.')}
+                onClick={() => setInfoModal('FAQ')}
                 className="flex items-center gap-1.5 hover:text-teal-800 transition font-medium uppercase cursor-pointer"
               >
                 <HelpCircle className="w-4 h-4 text-teal-700" />
@@ -733,6 +896,116 @@ export default function PublicPortalHome({ onNavigateToMap, onNavigateToProjects
           </div>
         </div>
       </div>
+
+      {/* ── Informational Rules & FAQ Modal ───────────────────── */}
+      {infoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+          <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+            <div className="bg-[#0f2e52] px-6 py-4 flex items-center justify-between text-white">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-amber-300" />
+                <h3 className="text-sm font-black uppercase tracking-wider">
+                  {infoModal === 'SLA_RULES' && 'Statutory 45-Day Sanction SLA'}
+                  {infoModal === 'SC_ST_RULES' && 'SC / ST Welfare Quotas (15% & 7.5%)'}
+                  {infoModal === 'CPWD_RULES' && 'CPWD Rate Benchmarks'}
+                  {infoModal === 'DETAILS' && 'MPLADS Scheme Overview'}
+                  {infoModal === 'FAQ' && 'Frequently Asked Questions (FAQ)'}
+                </h3>
+              </div>
+              <button
+                onClick={() => setInfoModal(null)}
+                className="p-1 rounded-lg hover:bg-white/20 text-slate-300 hover:text-white transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-6 text-xs sm:text-sm text-slate-700 space-y-3 leading-relaxed max-h-[75vh] overflow-y-auto">
+              {infoModal === 'SLA_RULES' && (
+                <>
+                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 font-bold text-xs flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-amber-700 shrink-0" />
+                    <span>Clause 3.12 (MPLADS Guidelines 2023): Mandatory 45-Day Timeframe</span>
+                  </div>
+                  <p>
+                    District Authorities (District Magistrates / Collectors) are statutorily required to accord <strong>Administrative & Technical Sanction (AS/TS) within 45 days</strong> of receiving a recommendation from the Hon’ble Member of Parliament.
+                  </p>
+                  <p>
+                    If a proposed work is technically non-feasible or falls outside guidelines, the District Authority must formally communicate the rejection reasons to the MP within the same 45-day SLA window.
+                  </p>
+                </>
+              )}
+
+              {infoModal === 'SC_ST_RULES' && (
+                <>
+                  <div className="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-900 font-bold text-xs flex items-center gap-2">
+                    <Award className="w-4 h-4 text-purple-700 shrink-0" />
+                    <span>Clause 2.5: Mandatory Social Inclusion Outlay</span>
+                  </div>
+                  <p>
+                    To foster equitable infrastructure development, MPs are required to recommend works contributing at least:
+                  </p>
+                  <ul className="list-disc pl-5 space-y-1 font-semibold text-slate-800">
+                    <li>15% of annual entitlement (₹75 Lakh) for areas inhabited by Scheduled Castes (SC).</li>
+                    <li>7.5% of annual entitlement (₹37.5 Lakh) for areas inhabited by Scheduled Tribes (ST).</li>
+                  </ul>
+                  <p>
+                    MPLAD Rakshak’s AI engine automatically tracks quota compliance and alerts District Authorities if annual earmarks are in deficit.
+                  </p>
+                </>
+              )}
+
+              {infoModal === 'CPWD_RULES' && (
+                <>
+                  <div className="p-3 bg-teal-50 border border-teal-200 rounded-xl text-teal-900 font-bold text-xs flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-teal-700 shrink-0" />
+                    <span>Clause 4.3: Engineering Estimates & Rate Benchmarks</span>
+                  </div>
+                  <p>
+                    All civil infrastructure works executed under MPLADS must conform strictly to the prevailing <strong>State PWD / Central PWD Schedule of Rates (CPWD SoR)</strong>.
+                  </p>
+                  <p>
+                    Artificially inflated estimates, excessive bill-of-quantities (BOQ), or rate variances exceeding 10% over standard district schedules are automatically flagged for forensic review.
+                  </p>
+                </>
+              )}
+
+              {infoModal === 'DETAILS' && (
+                <>
+                  <p>
+                    The <strong>Member of Parliament Local Area Development Scheme (MPLADS)</strong> is a Central Sector Scheme introduced in December 1993, administered by the Ministry of Statistics and Programme Implementation (MoSPI).
+                  </p>
+                  <p>
+                    Each MP has the choice to recommend works to the tune of <strong>₹5.00 Crore per annum</strong> with an emphasis on creating durable community assets based on locally felt developmental needs in drinking water, primary education, sanitation, roads, and community halls.
+                  </p>
+                </>
+              )}
+
+              {infoModal === 'FAQ' && (
+                <div className="space-y-3">
+                  <div>
+                    <h5 className="font-bold text-slate-900">How can citizens track local projects?</h5>
+                    <p className="text-slate-600">Citizens can filter by State and District above or click "Analytics Map" to see geo-tagged assets and physical completion milestones.</p>
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-slate-900">What if a sanctioned project is not built on ground?</h5>
+                    <p className="text-slate-600">Click "Report Fraud" on the project card to submit geo-tagged site photos and report ghost works or sub-standard execution directly to vigilance officers.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
+              <button
+                onClick={() => setInfoModal(null)}
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold uppercase transition cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Public Project Details Modal with Contractor, Tender & Dates ── */}
       {selectedProjectModal && (() => {

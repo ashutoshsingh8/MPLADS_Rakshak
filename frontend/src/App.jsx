@@ -269,8 +269,12 @@ export default function App() {
         {/* VIEW 1: HOME (Default Public Portal Home Page) */}
         {activeTab === 'home' && (
           <PublicPortalHome
-            onNavigateToMap={() => setActiveTab('map')}
-            onNavigateToProjects={() => setActiveTab('projects')}
+            onNavigateToMap={() => handleTabChange('map')}
+            onNavigateToProjects={() => handleTabChange('projects')}
+            onNavigateToGuidelines={() => handleTabChange('guidelines')}
+            onNavigateToAbout={() => handleTabChange('about')}
+            onNavigateToContact={() => handleTabChange('contact')}
+            onNavigateToLogin={() => handleTabChange('login')}
             onOpenFraudReport={(proj) => {
               setSelectedFraudProject(proj || null);
               setIsFraudModalOpen(true);
