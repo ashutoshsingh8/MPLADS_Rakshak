@@ -78,6 +78,15 @@ export default function App() {
           access_token: 'demo-token-da',
         };
       }
+      if (['contractor', 'contractor-dashboard', 'tenders', 'active-works', 'evidence', 'payments', 'billing'].includes(hash)) {
+        return {
+          username: 'contractor_abc',
+          role: 'CONTRACTOR',
+          full_name: 'Mr. Ramesh Shinde',
+          companyName: 'M/s ABC Constructions Pvt. Ltd.',
+          access_token: 'demo-token-contractor',
+        };
+      }
     }
     const saved = localStorage.getItem('mplad_user');
     return saved ? JSON.parse(saved) : null;
@@ -89,7 +98,8 @@ export default function App() {
       if ([
         'ministry-admin', 'dashboard', 'fraud', 'policy', 'financials', 'health', 'users', 'settings',
         'mp', 'mp-dashboard', 'mp-portal', 'nominations', 'mp-nominations', 'approved', 'approved-works', 'funding', 'prerequisites', 'map', 'photos', 'site-updates', 'help', 'new-proposal', 'pre-check',
-        'da', 'da-dashboard', 'district-authority', 'pipeline', 'scrutiny', 'inspections', 'work-orders', 'utilization', 'local-maps', 'boq', 'exif'
+        'da', 'da-dashboard', 'district-authority', 'pipeline', 'scrutiny', 'inspections', 'work-orders', 'utilization', 'local-maps', 'boq', 'exif',
+        'contractor', 'contractor-dashboard', 'tenders', 'active-works', 'evidence', 'payments', 'billing'
       ].includes(hash)) return true;
     }
     return false;
@@ -170,6 +180,16 @@ export default function App() {
     if (authenticatedUser.role === 'DISTRICT_AUTHORITY') {
       return (
         <DistrictAuthorityDashboard
+          onExitToPublic={() => setShowRoleDashboard(false)}
+          onLogout={handleLogout}
+          currentUser={authenticatedUser}
+        />
+      );
+    }
+
+    if (authenticatedUser.role === 'CONTRACTOR') {
+      return (
+        <ContractorPortal
           onExitToPublic={() => setShowRoleDashboard(false)}
           onLogout={handleLogout}
           currentUser={authenticatedUser}
