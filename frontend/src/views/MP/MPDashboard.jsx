@@ -32,7 +32,6 @@ import {
 } from 'recharts';
 import MPHeader from '../../components/MP/MPHeader';
 import MPSidebar from '../../components/MP/MPSidebar';
-import ProposalPreCheckModal from '../../components/MP/ProposalPreCheckModal';
 import GISMapViewer from '../../components/GISMapViewer';
 import {
   mockMpProfile,
@@ -57,13 +56,6 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
       if (['help', 'escalation'].includes(hash)) return 'help';
     }
     return 'nominations';
-  });
-  const [isPreCheckModalOpen, setIsPreCheckModalOpen] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash.replace('#', '');
-      if (['new-proposal', 'pre-check'].includes(hash)) return true;
-    }
-    return false;
   });
   const [liveProjects, setLiveProjects] = useState([]);
   const [escalatedMessage, setEscalatedMessage] = useState('');
@@ -100,7 +92,6 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
         <MPSidebar
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          onOpenNewProposal={() => setIsPreCheckModalOpen(true)}
           pendingBreachCount={mockPendingProposals.filter(p => p.slaBreached).length}
         />
 
@@ -679,16 +670,6 @@ export default function MPDashboard({ onExitToPublic, onLogout }) {
           )}
         </main>
       </div>
-
-      {/* ── Proposal Pre-Check Modal ────────────────────────── */}
-      <ProposalPreCheckModal
-        isOpen={isPreCheckModalOpen}
-        onClose={() => setIsPreCheckModalOpen(false)}
-        onSubmitSuccess={(p) => {
-          setEscalatedMessage(`Recommendation for "${p.title}" successfully submitted to District Authority.`);
-          setTimeout(() => setEscalatedMessage(''), 5000);
-        }}
-      />
     </div>
   );
 }

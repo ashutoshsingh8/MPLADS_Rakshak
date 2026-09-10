@@ -20,11 +20,14 @@ const collisionPin = new L.DivIcon({
   popupAnchor: [0, -34],
 });
 
-export default function DuplicateAssetMap() {
-  const [selectedAsset, setSelectedAsset] = useState(mockDuplicateAssets[0]);
+const INDIA_BOUNDS = [
+  [6.5, 68.0],
+  [37.5, 97.5],
+];
 
+export default function DuplicateAssetMap() {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 space-y-4">
+    <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <div>
           <h3 className="text-sm font-black text-slate-900 uppercase tracking-wide flex items-center gap-2">
@@ -44,13 +47,19 @@ export default function DuplicateAssetMap() {
       <div className="h-64 rounded-xl overflow-hidden border border-slate-200 relative shadow-inner">
         <MapContainer
           center={[18.5204, 73.8567]}
-          zoom={12}
+          zoom={13}
+          minZoom={5}
+          maxZoom={19}
+          maxBounds={INDIA_BOUNDS}
+          maxBoundsViscosity={1.0}
           scrollWheelZoom={false}
           className="h-full w-full"
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            noWrap={true}
+            bounds={INDIA_BOUNDS}
           />
 
           {mockDuplicateAssets.map((asset) => (

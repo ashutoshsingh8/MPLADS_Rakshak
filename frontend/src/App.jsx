@@ -79,7 +79,7 @@ export default function App() {
           access_token: 'demo-token-da',
         };
       }
-      if (['contractor', 'contractor-dashboard', 'tenders', 'active-works', 'evidence', 'payments', 'billing'].includes(hash)) {
+      if (['contractor', 'contractor-dashboard', 'contractor-portal', 'tenders', 'active-works', 'evidence', 'payments', 'billing', 'profile'].includes(hash)) {
         return {
           username: 'contractor_abc',
           role: 'CONTRACTOR',
@@ -100,7 +100,7 @@ export default function App() {
         'ministry-admin', 'dashboard', 'fraud', 'policy', 'financials', 'health', 'users', 'settings',
         'mp', 'mp-dashboard', 'mp-portal', 'nominations', 'mp-nominations', 'approved', 'approved-works', 'funding', 'prerequisites', 'map', 'photos', 'site-updates', 'help', 'new-proposal', 'pre-check',
         'da', 'da-dashboard', 'district-authority', 'pipeline', 'scrutiny', 'inspections', 'work-orders', 'utilization', 'local-maps', 'boq', 'exif',
-        'contractor', 'contractor-dashboard', 'tenders', 'active-works', 'evidence', 'payments', 'billing'
+        'contractor', 'contractor-dashboard', 'contractor-portal', 'tenders', 'active-works', 'evidence', 'payments', 'billing', 'profile'
       ].includes(hash)) return true;
     }
     return false;

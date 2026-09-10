@@ -15,6 +15,13 @@ const RISK_LEGEND = [
   { label: 'Flagged', color: '#F87171' },
 ];
 
+// Strict Republic of India Bounding Box
+const INDIA_BOUNDS = [
+  [6.5, 68.0],   // Southwest coordinates (Kanyakumari / Indian Ocean border)
+  [37.5, 97.5],  // Northeast coordinates (Kashmir / Arunachal border)
+];
+const INDIA_CENTER = [22.3511, 78.6677];
+
 function MapBounds({ projects }) {
   const map = useMap();
 
@@ -26,6 +33,8 @@ function MapBounds({ projects }) {
       if (bounds.length > 0) {
         map.fitBounds(bounds, { padding: [50, 50], maxZoom: 8 });
       }
+    } else {
+      map.fitBounds(INDIA_BOUNDS, { padding: [20, 20] });
     }
   }, [projects, map]);
 
@@ -33,32 +42,36 @@ function MapBounds({ projects }) {
 }
 
 export default function GISMapViewer({ projects = [], onProjectClick, height = '400px' }) {
-  // Default center: India
-  const defaultCenter = [22.5937, 78.9629];
   const validProjects = projects.filter((p) => p.latitude && p.longitude);
 
   return (
-    <div className="glass-card overflow-hidden" style={{ height }}>
+    <div className="rounded-2xl overflow-hidden relative shadow-md border border-slate-200" style={{ height }}>
       {/* Legend */}
-      <div className="absolute top-3 right-3 z-[1000] glass-card p-2.5 flex flex-col gap-1.5">
+      <div className="absolute top-3 right-3 z-[1000] bg-white/95 backdrop-blur-xs p-2.5 rounded-xl border border-slate-200 shadow-md flex flex-col gap-1.5">
         {RISK_LEGEND.map((item) => (
-          <div key={item.label} className="flex items-center gap-2 text-xs">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-            <span className="text-gray-300">{item.label}</span>
+          <div key={item.label} className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+            <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+            <span>{item.label}</span>
           </div>
         ))}
       </div>
 
       <MapContainer
-        center={defaultCenter}
+        center={INDIA_CENTER}
         zoom={5}
+        minZoom={4}
+        maxZoom={18}
+        maxBounds={INDIA_BOUNDS}
+        maxBoundsViscosity={1.0}
         style={{ height: '100%', width: '100%' }}
         zoomControl={true}
         scrollWheelZoom={true}
       >
         <TileLayer
-          attribution='&copy; <a href="https://carto.com">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          noWrap={true}
+          bounds={INDIA_BOUNDS}
         />
         <MapBounds projects={validProjects} />
 
@@ -74,7 +87,7 @@ export default function GISMapViewer({ projects = [], onProjectClick, height = '
               pathOptions={{
                 color: color,
                 fillColor: color,
-                fillOpacity: 0.6,
+                fillOpacity: 0.75,
                 weight: isFlagged ? 3 : 2,
               }}
               eventHandlers={{
@@ -82,19 +95,19 @@ export default function GISMapViewer({ projects = [], onProjectClick, height = '
               }}
             >
               <Popup>
-                <div className="min-w-[200px]">
-                  <div className="font-bold text-sm mb-1">{project.title}</div>
-                  <div className="text-xs space-y-0.5">
+                <div className="min-w-[200px] text-slate-800 p-1">
+                  <div className="font-bold text-sm mb-1 text-slate-900">{project.title}</div>
+                  <div className="text-xs space-y-0.5 text-slate-600">
                     <div>📍 {project.district}, {project.state}</div>
                     <div>💰 ₹{(project.sanctioned_amount || 0).toLocaleString('en-IN')}</div>
-                    <div>📊 Status: {project.status}</div>
+                    <div>📊 Status: <strong className="text-slate-800">{project.status}</strong></div>
                     {project.physical_progress_percent !== undefined && (
-                      <div>
-                        <div className="flex justify-between text-[10px] mt-1">
+                      <div className="pt-1">
+                        <div className="flex justify-between text-[10px] text-slate-500 font-medium">
                           <span>Progress</span>
-                          <span>{project.physical_progress_percent}%</span>
+                          <span className="font-bold text-slate-700">{project.physical_progress_percent}%</span>
                         </div>
-                        <div className="w-full h-1.5 bg-gray-600 rounded-full mt-0.5">
+                        <div className="w-full h-1.5 bg-slate-200 rounded-full mt-0.5 overflow-hidden">
                           <div
                             className="h-full rounded-full transition-all"
                             style={{

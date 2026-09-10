@@ -7,13 +7,12 @@ import {
   MapPin,
   Camera,
   HelpCircle,
-  PlusCircle,
   Clock,
   ChevronRight,
   Landmark
 } from 'lucide-react';
 
-export default function MPSidebar({ activeTab, onTabChange, onOpenNewProposal, pendingBreachCount = 1 }) {
+export default function MPSidebar({ activeTab, onTabChange, pendingBreachCount = 1 }) {
   const menuItems = [
     {
       id: 'nominations',
@@ -63,15 +62,6 @@ export default function MPSidebar({ activeTab, onTabChange, onOpenNewProposal, p
   return (
     <aside className="w-64 bg-[#0d2f41] text-white flex flex-col justify-between shrink-0 shadow-xl select-none min-h-[calc(100vh-64px)] border-r border-[#144b61]/40">
       <div className="p-3.5 space-y-3">
-        {/* New Work Recommendation CTA Button */}
-        <button
-          onClick={onOpenNewProposal}
-          className="w-full py-2.5 px-3.5 bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition cursor-pointer"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span>New Recommendation</span>
-        </button>
-
         <div className="px-3 pt-1 text-[10px] font-bold uppercase tracking-wider text-teal-200/60">
           Constituency Oversight
         </div>

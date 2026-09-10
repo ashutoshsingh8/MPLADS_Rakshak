@@ -1,25 +1,5 @@
 import { useState } from 'react';
 import { MoreVertical, Calendar, Info, FileText, CheckCircle2, AlertCircle, MapPin, ExternalLink } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-// Custom dark teal marker pin matching reference screenshot
-const customTealPin = new L.DivIcon({
-  className: 'custom-teal-pin',
-  html: `
-    <div style="position: relative; width: 34px; height: 42px; display: flex; align-items: center; justify-content: center;">
-      <svg viewBox="0 0 34 42" width="34" height="42" fill="none">
-        <path d="M17 0 C7.6 0 0 7.6 0 17 C0 27.5 14 40.5 16.2 42.5 C16.6 42.9 17.4 42.9 17.8 42.5 C20 40.5 34 27.5 34 17 C34 7.6 26.4 0 17 0 Z" fill="#134e43" stroke="#ffffff" stroke-width="2"/>
-        <circle cx="17" cy="17" r="7" fill="#ffffff"/>
-        <circle cx="17" cy="17" r="4" fill="#134e43"/>
-      </svg>
-    </div>
-  `,
-  iconSize: [34, 42],
-  iconAnchor: [17, 42],
-  popupAnchor: [0, -40],
-});
 
 export default function DistrictManagementCards({
   onOpenProposal,

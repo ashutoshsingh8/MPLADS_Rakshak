@@ -33,12 +33,12 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
       if (['payments', 'billing'].includes(hash)) return 'payments';
-      if (['profile'].includes(hash)) return 'profile';
-      if (['notifications'].includes(hash)) return 'notifications';
+      if (['active-works', 'tenders', 'projects', 'active-projects'].includes(hash)) return 'active-projects';
       if (['my-dashboard', 'dashboard'].includes(hash)) return 'dashboard';
-      if (['active-works', 'tenders', 'projects', 'contractor'].includes(hash)) return 'active-projects';
+      if (['notifications'].includes(hash)) return 'notifications';
+      if (['profile', 'contractor', 'contractor-dashboard', 'contractor-portal'].includes(hash)) return 'profile';
     }
-    return 'active-projects';
+    return 'profile';
   });
 
   const [selectedWorkForEvidence, setSelectedWorkForEvidence] = useState(() => {
@@ -61,11 +61,11 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
         setSelectedWorkForEvidence(mockActiveWorks[0]);
       } else if (['payments', 'billing'].includes(hash)) {
         setActiveTab('payments');
-      } else if (['active-works', 'tenders', 'projects', 'contractor'].includes(hash)) {
+      } else if (['active-works', 'tenders', 'projects', 'active-projects'].includes(hash)) {
         setActiveTab('active-projects');
-      } else if (hash === 'dashboard') {
+      } else if (hash === 'dashboard' || hash === 'my-dashboard') {
         setActiveTab('dashboard');
-      } else if (hash === 'profile') {
+      } else if (['profile', 'contractor', 'contractor-dashboard', 'contractor-portal'].includes(hash)) {
         setActiveTab('profile');
       } else if (hash === 'notifications') {
         setActiveTab('notifications');
@@ -417,7 +417,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
                     <span className="text-[11px] text-slate-400 font-mono">01-Sep-2026</span>
                   </div>
                   <p className="text-xs text-slate-600">
-                    All contractors must submit live photos captured via device rear camera within 50m displacement tolerance from sanctioned project centroids.
+                    All contractors must submit live photos captured via device camera within 50m displacement tolerance from sanctioned project centroids.
                   </p>
                 </div>
               </div>
@@ -495,7 +495,7 @@ export default function ContractorDashboard({ onExitToPublic, onLogout, currentU
         </main>
       </div>
 
-      {/* Modal 1: Live Evidence Capture with Rear Camera Lock & Geofence Verification */}
+      {/* Modal 1: Live Evidence Capture with Camera & Geofence Verification */}
       {selectedWorkForEvidence && (
         <LiveEvidenceModal
           work={selectedWorkForEvidence}

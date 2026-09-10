@@ -17,6 +17,11 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { mockExifInspectionData } from '../../mock/daDashboardData';
 
+const INDIA_BOUNDS = [
+  [6.5, 68.0],
+  [37.5, 97.5],
+];
+
 // Custom Map Pins for Official Site vs Photo Location
 const greenOfficialPin = new L.DivIcon({
   className: 'green-official-pin',
@@ -180,12 +185,18 @@ export default function EXIFInspectorModal({ projectId, onClose, onAuthorize, on
                 <MapContainer
                   center={[18.5331, 73.8680]}
                   zoom={12}
+                  minZoom={5}
+                  maxZoom={19}
+                  maxBounds={INDIA_BOUNDS}
+                  maxBoundsViscosity={1.0}
                   scrollWheelZoom={false}
                   className="h-full w-full"
                 >
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    noWrap={true}
+                    bounds={INDIA_BOUNDS}
                   />
 
                   {/* Sanctioned Site Pin (Green) */}
